@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  href="{%static 'css/header.css'%}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header class="outerSectionHeader">
+        <img src="{%static 'images/logo.png'%}" alt="logo" class="brandname">
+        <form action="" method="get">
+            <input type="text" placeholder="Search for Products, brands and name" name="searchBar">
+            <input type="button" value="Login">
+            <ul class="headerOptions">
+                <li>Become a Seller</li>
+                <li>More</li>
+                <li>Cart</li>
+            </ul>
+        </form>
+    </header>
+</body>
+</html>
