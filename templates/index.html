@@ -1,3 +1,18 @@
 {% extends 'baseheader.html' %}
 {%load static%}
 {% block title%}Attire{%endblock%}
+{% block css %}briefProductSection{%endblock%}
+
+
+{%block body%}
+<section class="briefProductSection">
+    <div class="briefProductSectionContainer"><img src="{%static 'images/topOffer.webp'%}"><p>Top Offers</p></div>
+    <div class="briefProductSectionContainer"><img src="{%static 'images/mobiles&Tablets.webp'%}"><p>Top Offers</p></div>
+    <div class="briefProductSectionContainer"><img src="{%static 'images/topOffer.webp'%}"><p>Top Offers</p></div>
+    <div class="briefProductSectionContainer"><img src="{%static 'images/topOffer.webp'%}"><p>Top Offers</p></div>
+</section>
+<!-- Banner Section -->
+<section class="bannerSection">
+    <div class="bannerImage"></div>
+</section>
+{%endblock%}

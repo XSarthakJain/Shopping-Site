@@ -1,0 +1,21 @@
+.briefProductSection{
+    min-height:80px;
+    width: 100vw;
+    background-color: #FFFFFF;
+    box-shadow: 1px 1px 2px 0px #a1a3a4;
+    padding:1em;
+}
+
+.briefProductSection{
+    text-align: center;
+    display: flex;
+}
+.briefProductSectionContainer{
+    margin-left:4em;
+    color: #212128;
+    font-weight: bold;
+    font-size: small;
+}
+.briefProductSectionContainer img{
+    height:60px;
+}
