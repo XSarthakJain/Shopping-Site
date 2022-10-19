@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{%static 'css/briefProductSection.css'%}">
     <link rel="stylesheet" href="{%static 'css/bannerImage.css'%}">
     <link rel="stylesheet" href="{%static 'css/productShowCase.css'%}">
+    <link rel="stylesheet" href="{%static 'css/login.css'%}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -17,12 +18,21 @@
         <form action="" method="get">
             <input type="text" placeholder="Search for Products, brands and name" name="searchBar">
             <input type="button" value="Login">
+        </form>
             <ul class="headerOptions">
                 <li>Become a Seller</li>
-                <li>More</li>
-                <li>Cart</li>
+                {% if user.is_authenticated %}
+                    <p style="margin-left:2em;">{{request.user}}</p>
+                    <form action="logout" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" name="Logout">
+                    </form>
+                {% else %}
+                <li><a href="login">Login</a></li>
+                <li><a href="signup">SignUp</a></li>
+                {% endif %}
             </ul>
-        </form>
+        
     </header>
     {%block body%}{%endblock%}
 </body>

@@ -1,0 +1,41 @@
+.loginWrapperDiv{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 5px gray;
+    padding:1em;
+}
+
+.loginWrapperDiv form input[type="text"],.loginWrapperDiv form input[type="password"]{
+    width:300px;
+    display: block;
+    padding:6px;
+    border-radius: 2px;
+    outline:none;
+    border:1px solid #E9ECEF;
+    margin-top:1em;
+}
+
+.loginWrapperDiv form input[type="submit"]{
+    width:300px;
+    display: block;
+    padding:8px;
+    border-radius: 2px;
+    outline:none;
+    border:1px solid #E9ECEF;
+    margin-top:1em;
+    background-color: #FB641B;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.signUpLink,.forgetpasswordLink a{
+    text-decoration: none;
+    color: #2874F0;
+}
+
+.signUpLink strong{
+    margin-top:1em;
+}

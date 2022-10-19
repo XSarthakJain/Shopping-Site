@@ -19,9 +19,10 @@
 <!-- Product Showcase Section -->
 <section class="productShowCase">
     <section class="productshelfblock">
+        <button class="left" >Left</button>
+        <button class="right">Right</button>
         <h1 class="productshelfblockheading">Blockbuster Deals</h1>
         <div class="productshelf">
-            
         <div class="productshelf_Product">
             <img src="{%static 'images/Mobile1.jpg'%}">
             <div class="productshelf_ProductDetails">
@@ -82,4 +83,12 @@
     </div>
     </section>
 </section>
+<script>
+    leftTrigger = document.getElementsByClassName("left");
+    for(i=0;i<leftTrigger.length;i++){
+    leftTrigger[i].addEventListener("click",(e)=>{
+        // alert(e.target.parentElement.style.color ="red");
+    })}
+</script>
+
 {%endblock%}

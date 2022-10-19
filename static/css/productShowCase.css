@@ -11,7 +11,38 @@
     border-radius: 5px;
     margin:1em;
     margin-top:2em;
+    position:relative;
 }
+
+.left{
+    position: absolute;
+    top:50%;
+    left:2em;
+    padding:2em 1em;
+    border:none;
+    box-shadow: 0 0 5px gray;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    cursor: pointer;
+    /* display: none; */
+}
+.right{
+    position:absolute;
+    top:50%;
+    right:2em;
+    padding:2em 1em;
+    border:none;
+    box-shadow: 0 0 5px gray;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    cursor: pointer;
+    
+}
+
+/* .productshelf:hover .right{
+    display: block;
+    color:red;
+} */
 .productshelf{
     margin-top:1em;
     display:flex;

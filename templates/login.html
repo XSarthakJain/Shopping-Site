@@ -1,0 +1,15 @@
+{% extends 'baseheader.html' %}
+{% block body %}
+
+<div class="loginWrapperDiv">
+<form action="loginsubmission" method="post">
+    {% csrf_token %}
+    <input type="text" name="email" required placeholder="Enter email & mobile number">
+    <input type="password" name="userpassword" required placeholder="password">
+    <small class="forgetpasswordLink"><a href="#">Forget Password</a></small>
+    <input type="submit" value="Login">
+    <a href="#" class="signUpLink"><strong>Create an account</strong></a>
+</form>
+</div>
+
+{% endblock %}
