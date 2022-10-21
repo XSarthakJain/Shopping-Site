@@ -1,0 +1,139 @@
+.outerProductInfo{
+    background-color: #FFFFFF;
+    display:flex;
+    padding: 2em;
+}
+.ProductCatelogImageWrapper{
+    width:33%;
+    height:70vh;
+}
+.ProductCatelogImage{
+    border: 1px solid #E9ECEF;
+    padding:2em;
+    margin-bottom: 1em;
+}
+
+
+
+.ProductCatelogImage img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ProductCatelogImage .wishlishIcon{
+    float:right;
+    color: #E9ECEF;
+    box-shadow: 0 0 3px  gray;
+    /* padding:8px; */
+    border-radius: 50%;
+    line-height:2em;
+    width:2em;
+    height:2em;
+    text-align: center;
+}
+.ProductCatelogDetails{
+    padding: 2em;
+    line-height: 2em;
+}
+
+.ProductCatelogDetails .ProductCatelogDetails_ProductName{
+    font-size: larger;
+}
+
+.quickRating_ProductCatelogDetails{
+    font-size: medium;
+    font-weight: 550;
+    color: #878787;
+}
+.quickRating_ProductCatelogDetails_RatingIcon{
+    background-color: #388E3C;
+    color:#FFFFFF;
+    padding:2px 6px;
+    font-size: small;
+    border-radius: 4px;
+    margin-right: 1em;
+}
+.quickRating_ProductCatelogDetails_RatingIcon i{
+    padding-left:4px;
+    font-size: x-small;
+}
+.ProductCatelogDetails_Price{
+    font-size: xx-large;
+    font-weight: normal;
+}
+.ProductCatelogDetails_Price strike{
+    font-size: 20px;
+    color:#878787;
+    margin-left: 12px;
+}
+.ProductCatelogDetails_Price span{
+    font-size: 18px;
+    font-weight: bold;
+    color: #388E3C;
+    margin-left:12px;
+}
+
+.offerSection ul {
+    list-style: none;
+    padding: 0;
+  }
+.offerSection  li {
+    padding-left: 1.3em;
+  }
+ .offerSection li:before {
+    content: "\f02b"; /* FontAwesome Unicode */
+    color: #388E3C;
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left: -1.3em; /* same as padding-left set on li */
+    width: 1.3em; /* same as padding-left set on li */
+  }
+
+  tr td:first-child{
+    padding-right:4em;
+  }
+
+.productColor{
+    width:50px !important;
+    height:50px;
+    padding:3px;
+    padding-top:6px;
+    text-align: center;
+    border:2px solid #E9ECEF;
+    cursor: pointer;
+    margin-left:2em;
+  }
+.productColor img{
+    width:40px;
+    height:40px;
+    object-fit: contain;
+}
+
+.productSpecifications{
+    width:100%;
+    border:1px solid #E9ECEF;
+}
+.productSpecifications tr:first-child td{
+    padding:1em 1em;
+    font-size: x-large;
+    font-weight: bold;
+    color: #000000;
+    
+}
+tr td:first-child{ 
+    color: gray;
+    padding-left: 2em;
+}
+.productCatelogActionButton{
+    width:48%;
+    padding:12px;
+    background-color: #FF9F00;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: large;
+    border: none;
+}
+.Checkout{
+    background-color: #FB641B;
+}

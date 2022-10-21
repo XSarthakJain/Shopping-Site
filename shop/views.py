@@ -50,4 +50,4 @@ def logout_handle(request):
 
 # Create your views here.
 def productinfo(request):
-    return HttpResponse("Shop Page is Here")
+    return render(request,'shop/productinfo.html')
