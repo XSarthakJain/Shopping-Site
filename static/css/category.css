@@ -1,0 +1,27 @@
+.categoryOuterBlock{
+    padding: 2em;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.categoryOuterBlock .categoryCard img{
+    width: 200px;
+    padding:1em;
+    align-item:center;
+    float:center;
+}
+
+.categoryOuterBlock .categoryCard{
+    width:200px;
+    border:1px solid #E9ECEF;
+    box-shadow:0 0 4px 1px gray;
+    padding:8px;
+    margin:2em;
+    cursor:pointer;
+    text-align:center;
+}
+
+.categoryOuterBlock h1:first-child{
+    width:100%;
+}

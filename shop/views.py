@@ -51,3 +51,7 @@ def logout_handle(request):
 # Create your views here.
 def productinfo(request):
     return render(request,'shop/productinfo.html')
+
+def category(request,search):
+    params={"search":search}
+    return render(request,'shop/category.html',params)

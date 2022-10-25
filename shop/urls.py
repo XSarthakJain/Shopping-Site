@@ -8,5 +8,6 @@ urlpatterns = [
     path("signup",views.signup,name="signup"),
     path("registersignup",views.register_signup,name="register_signup"),
     path("logout",views.logout_handle,name="logout_handle"),
-    path("productinfo",views.productinfo,name="productinfo")
+    path("productinfo",views.productinfo,name="productinfo"),
+    path('category/<search>/',views.category,name="category")
 ]
