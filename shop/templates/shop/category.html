@@ -2,104 +2,22 @@
 
 {% block body %}
 <section class="categoryOuterBlock">
-    <h1>Search item: {{search}}</h1><br>
+    <!-- <h1>Search item: {{search}}</h1><br> -->
+    {% for item in pro_data%}
+    
+    <a href="{% url 'productinfo' item.product_Name item.product_id %}">
     <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
+        <img src="{{ MEDIA_URL }}/media/{{item.product_Catelog}}" alt="Card Pic">
         <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
+            <strong>{{item.product_Name}}</strong>
+            <p>{{item.product_desc}}</p>
+            <h2>{{item.product_OfferPrice}}</h2>
+            <a href="{{item.product_id}}"><button>Add To CART</button></a>
+            <a href="{{item.product_id}}"><button>Checkout</button></a>
         </div>
     </div>
+    </a>
+    {%endfor%}
 
-    <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
-        <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
-        </div>
-    </div>
-
-    <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
-        <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
-        </div>
-    </div>
-
-    <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
-        <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
-        </div>
-    </div>
-
-    <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
-        <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
-        </div>
-    </div>
-
-    <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
-        <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
-        </div>
-    </div>
-
-    <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
-        <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
-        </div>
-    </div>
-
-    <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
-        <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
-        </div>
-    </div>
-
-    <div class="categoryCard">
-        <img src="https://images-eu.ssl-images-amazon.com/images/I/31D2yvpU3ML._AC_SR400,600_.jpg" alt="Card Pic">
-        <div class="categoryCardDisc">
-            <strong>Fastrack</strong>
-            <p>New Fastrack Reflex Play|AMOLED Display|100 + Watchfaces|in-Built</p>
-            <h2>50000000</h2>
-            <button>Add To CART</button>
-            <button>Checkout</button>
-        </div>
-    </div>
 </section>
 {% endblock%}

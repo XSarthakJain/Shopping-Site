@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
+from .models import Products
 
 
 def index(request):
@@ -49,9 +50,19 @@ def logout_handle(request):
 
 
 # Create your views here.
-def productinfo(request):
-    return render(request,'shop/productinfo.html')
-
+def productinfo(request,productname,productid):
+    if productid:
+        print("ProductID",productid,productname)
+        try:
+            qry = Products.objects.filter(product_id = productid).values()
+            print("===================Valuesssssssssssss",qry)
+            params = {'param':qry}
+            return render(request,'shop/productinfo.html',params)
+        except:
+            return HttpResponse("<h1>This Product is not available</h1>")
+    return redirect("shop/")
 def category(request,search):
     params={"search":search}
+    obj = Products.objects.filter(product_Category=search).values()
+    params = {'pro_data': obj}
     return render(request,'shop/category.html',params)
