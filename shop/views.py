@@ -84,7 +84,7 @@ def wishlist(request,productid):
     if not WishList.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
         qry = Products.objects.get(product_id = productid)
         WishList(buyer=request.user,product_id=qry).save()
-    # Getting All Cart Data For User
+    # Getting All WishList Data For User
     cartQry = WishList.objects.filter(buyer=request.user)
     obj = []
     for i in cartQry:

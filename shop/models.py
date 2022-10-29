@@ -23,3 +23,12 @@ class Cart(models.Model):
 class WishList(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
+
+class Deshboard(models.Model):
+    deshboard_Product_Catelog = models.ImageField(upload_to='media/deshboard',default='media/deshboard/product.jpg')
+    deshboard_Product_Name = models.CharField(max_length=50)
+    deshboard_Product_Description = models.TextField(blank=True, null=True)
+    deshboard_product_URL = models.URLField(max_length = 500)
+
+    def __str__(self):
+        return self.deshboard_Product_Name
