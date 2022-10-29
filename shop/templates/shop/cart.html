@@ -3,13 +3,16 @@
 {% block body %}
     <section class="cartOuterWrapper">
         <div class="displayItemSection">
+            {%for item in params%}
+            
             <div class="cartCard">
                 <div class="cartCardOuter">
-                    <img src="https://rukminim1.flixcart.com/image/224/224/ktlu9ow0/dslr-camera/r/y/j/alpha-zv-e10-24-2-megapixel-with-interchangeable-lens-aps-c-original-imag6wxxhxrv9htc.jpeg?q=90" alt="Product Image" class="cartProductImage">
-                    <h4 class="cartProductTitle">SONY ZV-E10L Mirrorless Camera Interchangeable-lens Vlo<br><span>₹44,999₹32,99926% Off2 offers applied</h4>
+                    <img src="{{item.product_pic.url}}" alt="Product Image" class="cartProductImage">
+                    <h4 class="cartProductTitle">{{item.product_Name}}<br><span>₹44,999₹32,99926% Off2 offers applied</h4>
                     <p class="cartProductDeliveryDate">Delivery by Fri Nov 4 | Free₹40</p>
                 </div>
                 <div>
+                {%endfor%}
                     <button class="cartController">-</button>
                     <input type="text">
                     <button class="cartController">+</button>

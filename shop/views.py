@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
 from .models import Products,WishList,Cart
+from django.db.models import Q
 
 
 def index(request):
@@ -64,16 +65,29 @@ def productinfo(request,productname,productid):
 def category(request,search):
     params={"search":search}
     obj = Products.objects.filter(product_Category=search).values()
+    print("@@@@@@@@@@@@@@@@@@@@@@@",obj)
     params = {'pro_data': obj}
     return render(request,'shop/category.html',params)
 def cart(request,productid):
-    qry = Products.objects.get(product_id = productid)
-    Cart(buyer=request.user,product_id=qry).save()
-
-   
-    return render(request,'shop/cart.html')
+    if not Cart.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
+        qry = Products.objects.get(product_id = productid)
+        Cart(buyer=request.user,product_id=qry).save()
+    # Getting All Cart Data For User
+    cartQry = Cart.objects.filter(buyer=request.user)
+    obj = []
+    for i in cartQry:
+        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name})
+    obj1 = {'params':obj}
+    return render(request,'shop/cart.html',obj1)
 
 def wishlist(request,productid):
-    qry = Products.objects.get(product_id = productid)
-    WishList(buyer=request.user,product_id=qry).save()
-    return render(request,'shop/wishlist.html')
+    if not WishList.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
+        qry = Products.objects.get(product_id = productid)
+        WishList(buyer=request.user,product_id=qry).save()
+    # Getting All Cart Data For User
+    cartQry = WishList.objects.filter(buyer=request.user)
+    obj = []
+    for i in cartQry:
+        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name})
+    obj1 = {'params':obj}
+    return render(request,'shop/wishlist.html',obj1)
