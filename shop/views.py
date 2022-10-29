@@ -66,3 +66,5 @@ def category(request,search):
     obj = Products.objects.filter(product_Category=search).values()
     params = {'pro_data': obj}
     return render(request,'shop/category.html',params)
+def cart(request):
+    return render(request,'shop/cart.html')

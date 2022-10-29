@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 import uuid
 # Create your models here.
 class Products(models.Model):
@@ -13,3 +14,7 @@ class Products(models.Model):
 
     def __str__(self):
         return self.product_Name
+
+class Cart(models.Model):
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
+    product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
