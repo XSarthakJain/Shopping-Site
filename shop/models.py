@@ -18,3 +18,7 @@ class Products(models.Model):
 class Cart(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
+
+class WishList(models.Model):
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
+    product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)

@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
-from .models import Products
+from .models import Products,WishList,Cart
 
 
 def index(request):
@@ -66,5 +66,14 @@ def category(request,search):
     obj = Products.objects.filter(product_Category=search).values()
     params = {'pro_data': obj}
     return render(request,'shop/category.html',params)
-def cart(request):
+def cart(request,productid):
+    qry = Products.objects.get(product_id = productid)
+    Cart(buyer=request.user,product_id=qry).save()
+
+   
     return render(request,'shop/cart.html')
+
+def wishlist(request,productid):
+    qry = Products.objects.get(product_id = productid)
+    WishList(buyer=request.user,product_id=qry).save()
+    return render(request,'shop/wishlist.html')

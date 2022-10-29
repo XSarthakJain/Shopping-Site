@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{%static 'css/productinfo.css'%}">
     <link rel="stylesheet" href="{%static 'css/category.css'%}">
     <link rel="stylesheet" href="{%static 'css/cart.css'%}">
+    <link rel="stylesheet" href="{%static 'css/wishlist.css'%}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -29,7 +30,7 @@
                 <li>Become a Seller</li>
                 {% if user.is_authenticated %}
                     <p style="margin-left:2em;">{{request.user}}</p>
-                    <form action="logout" method="POST">
+                    <form action="/shop/logout" method="POST">
                         {% csrf_token %}
                         <input type="submit" name="Logout">
                     </form>

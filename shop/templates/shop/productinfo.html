@@ -6,10 +6,10 @@
     {% for item in param%}
     <div class="ProductCatelogImageWrapper">
     <div class="ProductCatelogImage">
-        <span class="wishlishIcon"><i class="fa fa-heart"></i></span>
+        <a href="{%url 'wishlist' item.product_id %}"><span class="wishlishIcon"><i class="fa fa-heart"></i></span></a>
         <img src="{{MEDIA_URL}}/media/{{item.product_Catelog}}" alt="Catelog Image">
     </div>
-    <a href=""><button class="productCatelogActionButton">Add to Cart</button></a>
+    <a href="{%url 'cart' item.product_id %}"><button class="productCatelogActionButton">Add to Cart</button></a>
     <button class="productCatelogActionButton Checkout">Checkout</button>
     </div>
     <div class="ProductCatelogDetails">

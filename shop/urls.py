@@ -11,5 +11,6 @@ urlpatterns = [
     path("logout",views.logout_handle,name="logout_handle"),
     path("productinfo/<productname>/<productid>",views.productinfo,name="productinfo"),
     path('category/<search>/',views.category,name="category"),
-    path('cart',views.cart,name="cart")
+    path('cart/<productid>',views.cart,name="cart"),
+    path('wishlist/<productid>',views.wishlist,name="wishlist")
 ]
