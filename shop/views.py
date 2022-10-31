@@ -97,3 +97,6 @@ def wishlist(request,productid):
         obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name})
     obj1 = {'params':obj}
     return render(request,'shop/wishlist.html',obj1)
+
+def checkoutdeliveryaddress(request):
+    return HttpResponse("checkoutdeliveryaddress")
