@@ -19,3 +19,7 @@
 .briefProductSectionContainer img{
     height:60px;
 }
+.productshelf_Product img{
+    width: 150px;
+    max-height: 200px;
+}

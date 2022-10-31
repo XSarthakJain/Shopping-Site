@@ -18,70 +18,25 @@
 
 <!-- Product Showcase Section -->
 <section class="productShowCase">
+    {%for item_name,item_value in params.items%} 
     <section class="productshelfblock">
-        <button class="left" >Left</button>
-        <button class="right">Right</button>
-        <h1 class="productshelfblockheading">Blockbuster Deals</h1>
+        <!-- <button class="left" >Left</button>
+        <button class="right">Right</button> -->
+        <h1 class="productshelfblockheading">{{item_name}}</h1>
         <div class="productshelf">
-        <div class="productshelf_Product">
-            <img src="{%static 'images/Mobile1.jpg'%}">
-            <div class="productshelf_ProductDetails">
-                <label class="actionPointlabel" >Up to 9500 off</label>
-                <p class="productshelf_ProductDetailsName">Redmi 10A | Starting from 6999</p>
-            </div>
-        </div>
         
-
-     <div class="productshelf_Product">
-            <img src="{%static 'images/redmi.jpg'%}">
+        {%for sub_value in item_value%}        
+        <div class="productshelf_Product">
+            <img src="{{sub_value.deshboard_Product_Catelog.url}}">
             <div class="productshelf_ProductDetails">
-                <label class="actionPointlabel" >Up to 9500 off</label>
-                <p class="productshelf_ProductDetailsName">Redmi 10A | Starting from 6999</p>
+                <label class="actionPointlabel" >{{sub_value.deshboard_Product_Description}}</label>
+                <p class="productshelf_ProductDetailsName">{{sub_value.deshboard_Product_Name}}</p>
             </div>
         </div>
- 
-        <div class="productshelf_Product">
-            <img src="{%static 'images/oneplus.jpg'%}">
-            <div class="productshelf_ProductDetails">
-                <label class="actionPointlabel" >Up to 9500 off</label>
-                <p class="productshelf_ProductDetailsName">Redmi 10A | Starting from 6999</p>
-            </div>
-        </div>
-
-        <div class="productshelf_Product">
-            <img src="{%static 'images/watch.jpg'%}">
-            <div class="productshelf_ProductDetails">
-                <label class="actionPointlabel" >Up to 9500 off</label>
-                <p class="productshelf_ProductDetailsName">Redmi 10A | Starting from 6999</p>
-            </div>
-        </div> 
-
-        <div class="productshelf_Product">
-            <img src="{%static 'images/redmi.jpg'%}">
-            <div class="productshelf_ProductDetails">
-                <label class="actionPointlabel" >Up to 9500 off</label>
-                <p class="productshelf_ProductDetailsName">Redmi 10A | Starting from 6999</p>
-            </div>
-        </div>
- 
-        <div class="productshelf_Product">
-            <img src="{%static 'images/oneplus.jpg'%}">
-            <div class="productshelf_ProductDetails">
-                <label class="actionPointlabel" >Up to 9500 off</label>
-                <p class="productshelf_ProductDetailsName">Redmi 10A | Starting from 6999</p>
-            </div>
-        </div>
-
-        <div class="productshelf_Product">
-            <img src="{%static 'images/watch.jpg'%}">
-            <div class="productshelf_ProductDetails">
-                <label class="actionPointlabel" >Up to 9500 off</label>
-                <p class="productshelf_ProductDetailsName">Redmi 10A | Starting from 6999</p>
-            </div>
-        </div> 
-
+        {%endfor%}
     </div>
     </section>
+    {%endfor%}
 </section>
 <script>
     leftTrigger = document.getElementsByClassName("left");

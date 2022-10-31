@@ -3,12 +3,18 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
-from .models import Products,WishList,Cart
+from .models import Products,WishList,Cart,Deshboard
 from django.db.models import Q
 
-
 def index(request):
-    return render(request,'shop/index.html')
+    qry = Deshboard.objects.all().order_by('deshboard__rank')
+    obj1 = {}
+    for item in qry:
+        if item.deshboard.tag not in obj1:
+            obj1[item.deshboard.tag] = []
+        obj1[item.deshboard.tag].append({'deshboard_TagLine':item.deshboard.tag,'deshboard_Product_Catelog':item.deshboard_Product_Catelog,'deshboard_Product_Name':item.deshboard_Product_Name,'deshboard_Product_Description':item.deshboard_Product_Description,'deshboard_product_URL':item.deshboard_product_URL})
+    obj2 = {'params':obj1}
+    return render(request,'shop/index.html',obj2)
 def Userlogin(request):
     return render(request,'shop/login.html')
 def loginsubmission(request):
