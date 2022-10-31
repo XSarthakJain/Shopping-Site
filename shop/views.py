@@ -82,8 +82,8 @@ def cart(request,productid):
     cartQry = Cart.objects.filter(buyer=request.user)
     obj = []
     for i in cartQry:
-        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name})
-    obj1 = {'params':obj}
+        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
+    obj1 = {'params':obj,'shipping_Charge':10}
     return render(request,'shop/cart.html',obj1)
 
 def wishlist(request,productid):

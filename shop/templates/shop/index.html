@@ -25,7 +25,8 @@
         <h1 class="productshelfblockheading">{{item_name}}</h1>
         <div class="productshelf">
         
-        {%for sub_value in item_value%}        
+        {%for sub_value in item_value%} 
+        <a href="{{sub_value.deshboard_product_URL}}">
         <div class="productshelf_Product">
             <img src="{{sub_value.deshboard_Product_Catelog.url}}">
             <div class="productshelf_ProductDetails">
@@ -33,6 +34,7 @@
                 <p class="productshelf_ProductDetailsName">{{sub_value.deshboard_Product_Name}}</p>
             </div>
         </div>
+        </a>       
         {%endfor%}
     </div>
     </section>

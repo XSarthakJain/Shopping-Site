@@ -1,5 +1,6 @@
 {%extends 'shop/baseheader.html'%}
 {%load static%}
+{% load poll_extras %}
 {% block body %}
     <section class="cartOuterWrapper">
         <div class="displayItemSection">
@@ -8,11 +9,11 @@
             <div class="cartCard">
                 <div class="cartCardOuter">
                     <img src="{{item.product_pic.url}}" alt="Product Image" class="cartProductImage">
-                    <h4 class="cartProductTitle">{{item.product_Name}}<br><span>₹44,999₹32,99926% Off2 offers applied</h4>
+                    <h4 class="cartProductTitle">{{item.product_Name}}<br><span><h1>{{item.product_OfferPrice}}</h1><strike>₹{{item.product_Actual_Price}}</strike> Off2 offers applied</h4>
                     <p class="cartProductDeliveryDate">Delivery by Fri Nov 4 | Free₹40</p>
                 </div>
                 <div>
-                {%endfor%}
+                
                     <button class="cartController">-</button>
                     <input type="text">
                     <button class="cartController">+</button>
@@ -20,6 +21,38 @@
                     <strong>Remove</strong>
                 </div>
             </div>
+            {%endfor%}
+        </div>
+
+        <div class="displayAmountSection">
+            <strong>PRICE DETAILS</strong>
+            <table class="cart_Details_Section">
+                <tr>
+                    <td>Price {{params | length}}</td>
+                    <td>{{params | search_itemTotal:'product_OfferPrice'}}</td>
+                </tr>
+                <tr>
+                    <td>discount</td>
+                    <td>
+                        {% with a=params|search_itemTotal:'product_OfferPrice' %}
+                        {%with b=params|search_itemTotal:'product_Actual_Price'%}
+                         {{b|subtract:a}}
+                        {%endwith%}
+                        {% endwith %}
+                                                
+                        </td>
+                        
+                </tr>
+                <tr>
+                    <td>Delivery Charges</td>
+                    <td>{{shipping_Charge}}</td>
+                </tr>
+                <tr class="cart_Details_Total_Amount_Section">
+                    <td>Total Amount</td>
+                    <td>{{params|search_itemTotal:'product_OfferPrice'|add:shipping_Charge}}</td>
+                </tr>
+            </table>
+            <a href=""><button class="displayAmountSection_CheckoutButton">Checkout</button></a>
         </div>
     </section>
 {%endblock%}

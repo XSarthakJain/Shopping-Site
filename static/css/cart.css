@@ -13,6 +13,18 @@
     border: 2px solid #E9ECEF;
 }
 
+.displayAmountSection{
+    width:25%;
+    min-height:25%;
+    padding:1em;
+    background-color: #FFFFFF;
+    border:2px solid #E9ECEF;
+}
+
+.cart_Details_Section{
+    padding:0 !important;
+    margin:0;
+}
 .displayItemSection .cartCard{
     padding: 2em;
 }
@@ -44,4 +56,25 @@
     border-radius:50%;
     font-weight:bolder;
     cursor:pointer;
+}
+
+.cart_Details_Section tr{
+    background-color: #E9ECEF;
+}
+
+.cart_Details_Section tr td{
+    padding:12px;
+}
+.cart_Details_Total_Amount_Section td{
+    border: 2px dotted tomato;
+    padding:1em;
+    color:red;
+}
+.displayAmountSection_CheckoutButton{
+    padding:12px 12px;
+    color: #FFFFFF;
+    background-color: rgb(228, 28, 31);
+    border:none;
+    width:89%;
+    cursor: pointer;    
 }
