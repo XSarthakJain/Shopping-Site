@@ -1,10 +1,12 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
 from .models import Products,WishList,Cart,Deshboard
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 def index(request):
     qry = Deshboard.objects.all().order_by('deshboard__rank')
@@ -99,4 +101,19 @@ def wishlist(request,productid):
     return render(request,'shop/wishlist.html',obj1)
 
 def checkoutdeliveryaddress(request):
-    return HttpResponse("checkoutdeliveryaddress")
+    return render(request,'shop/checkoutdeliveryaddress.html')
+
+@csrf_exempt
+def deliveryaddresssubmission(request):
+    if request.method == "POST":
+        country =  request.POST.get('country','')
+        fullname = request.POST.get('fullname')
+        mobileno = request.POST.get('mobileno')
+        pincode = request.POST.get('pincode')
+        flatno =  request.POST.get('flatno')
+        area = request.POST.get('area')
+        landmark =  request.POST.get('landmark')
+        city = request.POST.get('city')
+        state  = request.POST.get('state')
+        print(country,fullname,mobileno,pincode,flatno,area,landmark,city,state)
+    return JsonResponse({'status':'Sucess'})

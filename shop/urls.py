@@ -13,5 +13,7 @@ urlpatterns = [
     path('category/<search>/',views.category,name="category"),
     path('cart/<productid>',views.cart,name="cart"),
     path('wishlist/<productid>',views.wishlist,name="wishlist"),
-    path('checkout/deliveryaddress',views.checkoutdeliveryaddress,name="checkoutdeliveryaddress")
+    path('checkout/deliveryaddress',views.checkoutdeliveryaddress,name="checkoutdeliveryaddress"),
+    path('deliveryaddresssubmission',views.deliveryaddresssubmission,name="deliveryaddresssubmission")
+
 ]

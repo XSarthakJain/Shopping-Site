@@ -1,0 +1,101 @@
+{%extends 'shop/baseheader.html'%}
+{%load static%}
+{%block title%}Checkout Delivery Address{%endblock%}
+
+
+{%block body%}
+<h1>Select a delivery address</h1>
+<section class="delivery_Section_Wrapper">
+    <h4>Your addresses</h4>
+    <form action="#" method="post">
+        {% csrf_token %}
+        <div class="deliveryCard">
+        <input type="radio" name="deliveryaddress" value="AGRA" id="AGRA">
+            <label for="AGRA">AGRA</label>
+        </div>
+        <div class="deliveryCard">
+            <input type="radio" name="deliveryaddress" value="Bangalure" id="Bangalure">
+            <label for="Bangalure">Bangalure</label>
+        </div>
+        <a href="#" id="add_NewAddress">add a new address</a>
+        <br>
+        <input type="submit" value="Use this address">
+    </form>
+</section>
+
+<!-- Side Bar -->
+<section class="deliverySection_Sidebar">
+    <button class="deliverySection_SidebarClosebtn">X</button>
+    <div>
+        <h4>Enter a new delivery address</h4>
+        <form id="deliveryAddressForm">
+            <label>Country/Region</label>
+            <select name="country">
+                <option value="INDIA">INDIA</option>
+            </select>
+            <label>Full name</label>
+            <input type="text" name="fullname">
+            <label>Mobile number</label>
+            <input type="number" name="mobilenumber">
+            <label>Pin code</label>
+            <input type="number" name="pincode">
+            <label>Flat, House no., Building, Company, Apartment</label>
+            <input type="text" name="houselocation">
+            <label>Area, Street, Sector, Village</label>
+            <input type="text" name="area">
+            <label>Landmark</label>
+            <input type="text" name="Landmark">
+            <label>Town/City</label>
+            <input type="text" name="town">
+            <label>State</label>
+            <select name="state">
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+            </select>
+            <input type="submit" value="Use this address">
+        </form>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    let deliverySection_Sidebar = document.getElementsByClassName("deliverySection_Sidebar")[0];
+    let add_NewAddress = document.querySelector("#add_NewAddress");
+    let deliverySection_SidebarClosebtn = document.getElementsByClassName("deliverySection_SidebarClosebtn")[0];
+    add_NewAddress.addEventListener('click',()=>{
+        deliverySection_Sidebar.classList.toggle('deliverySection_SidebarAppear');
+    })
+
+    deliverySection_SidebarClosebtn.addEventListener('click',()=>{
+        deliverySection_Sidebar.classList.toggle('deliverySection_SidebarAppear');
+    })
+    
+    let deliveryAddressForm = document.getElementById("deliveryAddressForm");
+    deliveryAddressForm.addEventListener("submit",(e)=>{
+        e.preventDefault();
+        // 
+        $.ajax({
+        method:'POST',
+        url:"{%url 'deliveryaddresssubmission'%}",
+        data:{
+            country : deliveryAddressForm.elements[0].value,  
+            fullname:deliveryAddressForm.elements[1].value,
+            mobileno : deliveryAddressForm.elements[2].value,  
+            pincode:deliveryAddressForm.elements[3].value,
+            flatno : deliveryAddressForm.elements[4].value,  
+            area:deliveryAddressForm.elements[5].value,
+            landmark : deliveryAddressForm.elements[6].value,  
+            city:deliveryAddressForm.elements[7].value,
+            state : deliveryAddressForm.elements[8].value,  
+        },
+        success:function(e){
+            alert("Sucessfully Done");
+        },
+        error:function(data){
+            alert("Fail");
+        }
+        })
+
+        // 
+
+    })
+</script>
+{%endblock%}
