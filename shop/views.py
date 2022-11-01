@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
-from .models import Products,WishList,Cart,Deshboard
+from .models import Products,WishList,Cart,Deshboard,DeliveryAddress
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -101,7 +101,9 @@ def wishlist(request,productid):
     return render(request,'shop/wishlist.html',obj1)
 
 def checkoutdeliveryaddress(request):
-    return render(request,'shop/checkoutdeliveryaddress.html')
+    qry = DeliveryAddress.objects.filter(buyer = request.user).values()
+    obj = {'params':qry}
+    return render(request,'shop/checkoutdeliveryaddress.html',obj)
 
 @csrf_exempt
 def deliveryaddresssubmission(request):
@@ -115,5 +117,7 @@ def deliveryaddresssubmission(request):
         landmark =  request.POST.get('landmark')
         city = request.POST.get('city')
         state  = request.POST.get('state')
-        print(country,fullname,mobileno,pincode,flatno,area,landmark,city,state)
-    return JsonResponse({'status':'Sucess'})
+        DeliveryAddress(buyer=request.user,deliver_country=country,fullname=fullname,mobileno=mobileno,pincode=pincode,flatno=flatno,area=area,landmark=landmark,city=city,state=state).save()
+        return JsonResponse({'status': True,'country':country,'fullname':fullname,'mobileno':mobileno,'pincode':pincode,'flatno':flatno,'area':area,'landmark':landmark,'city':city,'state':state})
+    else:
+        return JsonResponse({"status":False})

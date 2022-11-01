@@ -5,10 +5,11 @@ from .models import Cart
 from .models import WishList
 from .models import DeshboardTags
 from .models import Deshboard
-
+from .models import DeliveryAddress
 # Register your models here.
 admin.site.register(Products)
 admin.site.register(Cart)
 admin.site.register(WishList)
 admin.site.register(DeshboardTags)
 admin.site.register(Deshboard)
+admin.site.register(DeliveryAddress)

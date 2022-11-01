@@ -43,3 +43,18 @@ class Deshboard(models.Model):
 
     def __str__(self):
         return self.deshboard_Product_Name
+
+class DeliveryAddress(models.Model):
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
+    deliver_country = models.CharField(max_length=100)
+    fullname = models.CharField(max_length=20)
+    mobileno = models.CharField(max_length=15)
+    pincode = models.CharField(max_length=10)
+    flatno = models.CharField(max_length=250)
+    area = models.CharField(max_length=200)
+    landmark = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.flatno

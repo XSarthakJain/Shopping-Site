@@ -7,16 +7,12 @@
 <h1>Select a delivery address</h1>
 <section class="delivery_Section_Wrapper">
     <h4>Your addresses</h4>
-    <form action="#" method="post">
+    <form action="#" method="post" id="deliverySectionForm">
         {% csrf_token %}
-        <div class="deliveryCard">
-        <input type="radio" name="deliveryaddress" value="AGRA" id="AGRA">
-            <label for="AGRA">AGRA</label>
-        </div>
-        <div class="deliveryCard">
-            <input type="radio" name="deliveryaddress" value="Bangalure" id="Bangalure">
-            <label for="Bangalure">Bangalure</label>
-        </div>
+        {%for item in params%}
+        <div class="deliveryCard"><input type="radio" name="deliveryaddress" value="{{item.area}}" id="{{item.area}}"><label for="{{item.area}}"><b>{{item.fullname}}  </b>{{item.flatno}},<span> {{item.area}}</span>, <span>{{item.city}}</span>, <span>{{item.state}}</span>, <span>{{item.pincode}}</span>, <span>{{item.deliver_country}}</span>, <span>Phone number:{{item.mobileno}}</span></label></div>
+        {%endfor%}
+
         <a href="#" id="add_NewAddress">add a new address</a>
         <br>
         <input type="submit" value="Use this address">
@@ -69,6 +65,7 @@
     })
     
     let deliveryAddressForm = document.getElementById("deliveryAddressForm");
+    let deliverySectionForm = document.getElementById("deliverySectionForm");
     deliveryAddressForm.addEventListener("submit",(e)=>{
         e.preventDefault();
         // 
@@ -88,6 +85,7 @@
         },
         success:function(e){
             alert("Sucessfully Done");
+            deliverySectionForm.innerHTML += '<div class="deliveryCard"><input type="radio" name="deliveryaddress" value="'+e.area+'" id="'+e.area+'"><label for="'+e.area+'"><b>'+e.fullname+'  </b>'+e.flatno+',<span> '+e.area+'</span>, <span>'+e.city+'</span>, <span>'+e.state+'</span>, <span>'+e.pincode+'</span>, <span>'+e.country+'</span>, <span>Phone number:'+e.mobileno+'</span></label></div>';
         },
         error:function(data){
             alert("Fail");
