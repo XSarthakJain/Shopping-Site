@@ -1,0 +1,46 @@
+.paymentsectionWrapper{
+    display:flex;
+    background-color: #E9ECEF;
+    width:100%;
+    min-height: 80vh;
+    max-height: 100%;
+    padding:2em;
+}
+
+.paymentsectionWrapper .paymentsection{
+    width:70%;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 4px gray;
+    padding:2em;
+}
+.paymentsectionWrapper .orderedsection{
+    width:25%;
+    margin-left:2em;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 4px gray;
+}
+.paymentsectionWrapper .paymentsection input[type="text"]{
+    width:50%;
+    padding:8px 12px;
+}
+.paymentsectionWrapper .paymentsection input[type="submit"]{
+    padding:8px 12px;
+}
+.paymentsectionWrapper .paymentsection .viewallOffers{
+    width:50%;
+    margin-top: 1em;
+    max-height:250px;
+    box-shadow: 0 0 4px gray;
+    overflow-y: auto;
+}
+.paymentsectionWrapper .paymentsection .viewallOffers h1:first-child{
+    width:100%;
+    padding:12px;
+    background-color: #E9ECEF;
+}
+.paymentsectionWrapper .paymentsection .viewallOffers ul{
+    padding: 2em;
+}
+.paymentsectionWrapper .paymentsection .viewallOffers ul li{
+    padding-bottom: 8px;
+}

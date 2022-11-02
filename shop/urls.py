@@ -14,6 +14,8 @@ urlpatterns = [
     path('cart/<productid>',views.cart,name="cart"),
     path('wishlist/<productid>',views.wishlist,name="wishlist"),
     path('checkout/deliveryaddress',views.checkoutdeliveryaddress,name="checkoutdeliveryaddress"),
-    path('deliveryaddresssubmission',views.deliveryaddresssubmission,name="deliveryaddresssubmission")
+    path('deliveryaddresssubmission',views.deliveryaddresssubmission,name="deliveryaddresssubmission"),
+    path('checkout/paymentsection',views.paymentsection,name="paymentsection"),
+    path('checkout/promocodevalidate',views.promocodevalidate,name="promocodevalidate")
 
 ]

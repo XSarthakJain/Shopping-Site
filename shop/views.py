@@ -3,10 +3,11 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
-from .models import Products,WishList,Cart,Deshboard,DeliveryAddress
+from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+import datetime
 
 def index(request):
     qry = Deshboard.objects.all().order_by('deshboard__rank')
@@ -121,3 +122,23 @@ def deliveryaddresssubmission(request):
         return JsonResponse({'status': True,'country':country,'fullname':fullname,'mobileno':mobileno,'pincode':pincode,'flatno':flatno,'area':area,'landmark':landmark,'city':city,'state':state})
     else:
         return JsonResponse({"status":False})
+
+def paymentsection(request):
+    # Getting All Cart Data For User
+    cartQry = Cart.objects.filter(buyer=request.user)
+    obj = []
+    for i in cartQry:
+        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
+    obj1 = {'params':obj,'shipping_Charge':10}
+    return render(request,'shop/paymentsection.html',obj1)
+
+@csrf_exempt
+def promocodevalidate(request):
+    print("Promo Code Validate ===========")
+    date_today = datetime.datetime.now().date()
+    if request.method == 'POST':
+        promocode = request.POST.get('promocode')
+        productprice = request.POST.get('productprice')
+        qry = PromoCode.objects.get(Q(promocode=promocode) & Q(creationDate__lte=date_today) & Q(enddate__gte=date_today) & Q(min_purchase__lte = productprice))
+        print('qry',type(qry),qry.promocode)
+        return JsonResponse({'status':'Success','promocode':qry.promocode,'promocodeamt':qry.fixed_amount_off})

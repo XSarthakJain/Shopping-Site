@@ -1,0 +1,81 @@
+{%extends 'shop/baseheader.html'%}
+{%block title%}Payment Section{%endblock%}
+{% load poll_extras %}
+{%load static%}
+{%block body%}
+<h1>Select a Payment methods</h1>
+<section class="paymentsectionWrapper">
+    <div class="paymentsection">
+        <form id="promocode_form">
+            <input type="text" name="promocode" placeholder="Promo Code">
+            <input type="submit" value="Apply">
+        </form>
+        <div class="viewallOffers">
+            <h1>All Offers</h1>
+            <ul>
+                <li>Offer available only on Clothes</li>
+                <li>Offer available only on Clothes</li>
+                <li>Offer available only on Clothes</li>
+                <li>Offer available only on Clothes</li>
+            </ul>
+        </div>
+    </div>
+    <div class="orderedsection">
+        <table class="cart_Details_Section">
+            <tr>
+                <td>Price {{params | length}}</td>
+                <td id="productprice">{{params | search_itemTotal:'product_OfferPrice'}}</td>
+            </tr>
+            <tr>
+                <td>discount</td>
+                <td>
+                    {% with a=params|search_itemTotal:'product_OfferPrice' %}
+                    {%with b=params|search_itemTotal:'product_Actual_Price'%}
+                     {{b|subtract:a}}
+                    {%endwith%}
+                    {% endwith %}
+                                            
+                    </td>   
+            </tr>
+            <tr>
+                <td>Delivery Charges</td>
+                <td>{{shipping_Charge}}</td>
+            </tr>
+            <tr class="cart_Details_Total_Amount_Section">
+                <td>Total Amount</td>
+                <td id="Finalamount">{{params|search_itemTotal:'product_OfferPrice'|add:shipping_Charge}}</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    let promocode_form = document.getElementById("promocode_form");
+    let productprice = document.getElementById("productprice");
+    let Finalamount = document.getElementById("Finalamount");
+    promocode_form.addEventListener("submit",(e)=>{
+        e.preventDefault();
+
+        //
+        $.ajax({
+        method:'POST',
+        url:"{%url 'promocodevalidate'%}",
+        data:{
+            promocode : promocode_form.elements[0].value,  
+            productprice:productprice.innerText
+        },
+        success:function(e){
+            alert("Sucessfully Done");
+            productprice.innerText = (parseInt(productprice.innerText) - e.promocodeamt) + " (Price - PromoCode)";
+            Finalamount.innerText = parseInt(Finalamount.innerText) - e.promocodeamt;
+        },
+        error:function(data){
+            alert("Fail");
+        }
+        })
+
+        //
+    })
+</script>
+{%endblock%}
+

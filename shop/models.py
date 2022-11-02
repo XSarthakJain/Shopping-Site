@@ -58,3 +58,16 @@ class DeliveryAddress(models.Model):
 
     def __str__(self):
         return self.flatno
+    
+
+class PromoCode(models.Model):
+    creationDate = models.DateField()
+    enddate = models.DateField()
+    promocode = models.CharField(max_length=100)
+    no_of_user = models.IntegerField()
+    min_purchase = models.IntegerField()
+    fixed_amount_off = models.IntegerField()
+
+    def __str__(self):
+        return self.promocode
+
