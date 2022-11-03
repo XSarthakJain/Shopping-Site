@@ -67,6 +67,8 @@ class PromoCode(models.Model):
     no_of_user = models.IntegerField()
     min_purchase = models.IntegerField()
     fixed_amount_off = models.IntegerField()
+    promocode_desc = models.CharField(max_length=200,default='')
+    display_promo = models.BooleanField(default=False)
 
     def __str__(self):
         return self.promocode

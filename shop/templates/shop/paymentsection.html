@@ -10,15 +10,16 @@
             <input type="text" name="promocode" placeholder="Promo Code">
             <input type="submit" value="Apply">
         </form>
+        {%if promocode_qry%}
         <div class="viewallOffers">
             <h1>All Offers</h1>
-            <ul>
-                <li>Offer available only on Clothes</li>
-                <li>Offer available only on Clothes</li>
-                <li>Offer available only on Clothes</li>
-                <li>Offer available only on Clothes</li>
+            <ul id="viewallOffersListWrapper">
+                {%for promo in promocode_qry%}
+                <li class="viewallOffersListDesc">{{promo.promocode_desc}} <mark class="viewallOffersListItem">{{promo.promocode}}</mark></li>
+                {%endfor%}
             </ul>
         </div>
+        {%endif%}
     </div>
     <div class="orderedsection">
         <table class="cart_Details_Section">
@@ -56,26 +57,42 @@
     promocode_form.addEventListener("submit",(e)=>{
         e.preventDefault();
 
+        promocodefun(promocode_form.elements[0].value);
         //
+        
+        //
+    })
+
+//     function getEventTarget(e) {
+//     e = e || window.event;
+//     return e.target || e.srcElement; 
+// }
+
+    let viewallOffersListItem = document.querySelectorAll(".viewallOffersListItem");
+    viewallOffersListItem.forEach(el => el.addEventListener('click', el => {
+        alert(el.target.innerText);
+        promocodefun(el.target.innerText);
+    }))
+
+    function promocodefun(promocode){
         $.ajax({
         method:'POST',
         url:"{%url 'promocodevalidate'%}",
         data:{
-            promocode : promocode_form.elements[0].value,  
+            promocode : promocode,  
             productprice:productprice.innerText
         },
         success:function(e){
             alert("Sucessfully Done");
-            productprice.innerText = (parseInt(productprice.innerText) - e.promocodeamt) + " (Price - PromoCode)";
-            Finalamount.innerText = parseInt(Finalamount.innerText) - e.promocodeamt;
+            productprice.innerText = e.promocodeamt + " (Price - PromoCode)";
+            Finalamount.innerText = e.promocodeamt;
         },
         error:function(data){
             alert("Fail");
         }
         })
+    }
 
-        //
-    })
 </script>
 {%endblock%}
 

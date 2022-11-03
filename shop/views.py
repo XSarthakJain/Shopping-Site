@@ -127,9 +127,12 @@ def paymentsection(request):
     # Getting All Cart Data For User
     cartQry = Cart.objects.filter(buyer=request.user)
     obj = []
+    request.session['totalpaybleamount'] = 0
     for i in cartQry:
         obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
-    obj1 = {'params':obj,'shipping_Charge':10}
+        request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + i.product_id.product_OfferPrice
+    promocode_qry = PromoCode.objects.filter(display_promo=True).values()
+    obj1 = {'params':obj,'promocode_qry':promocode_qry,'shipping_Charge':10}
     return render(request,'shop/paymentsection.html',obj1)
 
 @csrf_exempt
@@ -138,7 +141,7 @@ def promocodevalidate(request):
     date_today = datetime.datetime.now().date()
     if request.method == 'POST':
         promocode = request.POST.get('promocode')
-        productprice = request.POST.get('productprice')
-        qry = PromoCode.objects.get(Q(promocode=promocode) & Q(creationDate__lte=date_today) & Q(enddate__gte=date_today) & Q(min_purchase__lte = productprice))
+        qry = PromoCode.objects.get(Q(promocode=promocode) & Q(creationDate__lte=date_today) & Q(enddate__gte=date_today) & Q(min_purchase__lte = request.session['totalpaybleamount']))
+         
         print('qry',type(qry),qry.promocode)
-        return JsonResponse({'status':'Success','promocode':qry.promocode,'promocodeamt':qry.fixed_amount_off})
+        return JsonResponse({'status':'Success','promocode':qry.promocode,'promocodeamt':request.session['totalpaybleamount'] - qry.fixed_amount_off})
