@@ -23,3 +23,12 @@
     width: 150px;
     max-height: 200px;
 }
+.alertWrapper{
+}
+.success{
+    width:100%;
+    padding:1em;
+    margin:0;
+    color: #FFFFFF;
+    background-color: rgb(118, 153, 118);
+}

@@ -5,6 +5,15 @@
 
 
 {%block body%}
+{%if messages%}
+    <div class="alertWrapper">
+    <ul class="messages">
+        {%for message in messages%}
+        <li{% if message.tags %} class="{{message.tags}}" {%endif%}>{{message}}</li>
+        {%endfor%}
+    </ul>
+    </div>
+    {%endif%}
 <section class="briefProductSection">
     <div class="briefProductSectionContainer"><img src="{%static 'images/topOffer.webp'%}"><p>Top Offers</p></div>
     <div class="briefProductSectionContainer"><img src="{%static 'images/mobiles&Tablets.webp'%}"><p>Top Offers</p></div>

@@ -7,6 +7,7 @@ from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.contrib import messages
 import datetime
 
 def index(request):
@@ -145,3 +146,8 @@ def promocodevalidate(request):
          
         print('qry',type(qry),qry.promocode)
         return JsonResponse({'status':'Success','promocode':qry.promocode,'promocodeamt':request.session['totalpaybleamount'] - qry.fixed_amount_off})
+
+def pay(request):
+    messages.success(request,"Your Order has been made")
+    messages.tags = "success"
+    return redirect("/shop")
