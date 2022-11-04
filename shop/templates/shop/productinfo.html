@@ -9,14 +9,22 @@
         <a href="{%url 'wishlist' item.product_id %}"><span class="wishlishIcon"><i class="fa fa-heart"></i></span></a>
         <img src="{{MEDIA_URL}}/media/{{item.product_Catelog}}" alt="Catelog Image">
     </div>
+
+    {%if item.product_quantity != 0 %}
     <a href="{%url 'cart' item.product_id %}"><button class="productCatelogActionButton">Add to Cart</button></a>
     <button class="productCatelogActionButton Checkout">Checkout</button>
+    {%else%}
+    <a href=""><button class="productCatelogNotifyActionButton">Notify You</button></a>
+    {%endif%}
     </div>
     <div class="ProductCatelogDetails">
         <p class="ProductCatelogDetails_ProductName">{{item.product_Name}}</p>
         <p class="quickRating_ProductCatelogDetails"><span class="quickRating_ProductCatelogDetails_RatingIcon">4.2<i class="fa fa-star"></i></span>42,370 Ratings & 4,237 Reviews</p>
+        {%if item.product_quantity != 0 %}
         <h1 class="ProductCatelogDetails_Price">₹{{item.product_OfferPrice}}<strike>₹{{item.product_Price}}</strike><span class="">29% off</span></h1>
-
+        {%else%}
+        <strong class="notifyMessage">This Product is not available now, please click on notify button if you want to get notification once it get back</strong>
+        {%endif%}
         <div class="offerSection">
             <p>Available Offers</p>
             <ul>

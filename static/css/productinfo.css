@@ -135,6 +135,20 @@
     font-size: large;
     border: none;
 }
+
+.productCatelogNotifyActionButton{
+    width:100%;
+    padding:12px;
+    background-color: #FF9F00;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: large;
+    border: none;
+    border-radius:25px;
+}
 .Checkout{
     background-color: #FB641B;
+}
+.notifyMessage{
+    color:red;
 }
