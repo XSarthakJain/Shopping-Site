@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
-from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode
+from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode,Orderitem
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -150,4 +150,16 @@ def promocodevalidate(request):
 def pay(request):
     messages.success(request,"Your Order has been made")
     messages.tags = "success"
-    return redirect("/shop")
+    qry = Cart.objects.filter(buyer=request.user)
+    for item in qry:
+        Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date()).save()
+    qry.delete()    
+    return redirect("/shop/order")
+
+def order(request):
+    qry = Orderitem.objects.filter(buyer=request.user)
+    obj = []
+    for i in qry:
+        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'order_date':i.order_date,'delivery_status':i.delivery_status})
+    obj = {'params':obj}
+    return render(request,'shop/order.html',obj)

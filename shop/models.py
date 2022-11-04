@@ -72,4 +72,12 @@ class PromoCode(models.Model):
 
     def __str__(self):
         return self.promocode
+from datetime import datetime
+class Orderitem(models.Model):
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
+    product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
+    delivery_status = models.BooleanField(default=False)
+    order_date = models.DateField()
+
+
 
