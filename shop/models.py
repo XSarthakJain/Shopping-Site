@@ -75,12 +75,27 @@ class PromoCode(models.Model):
 
     def __str__(self):
         return self.promocode
-from datetime import datetime
+
 class Orderitem(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
     delivery_status = models.BooleanField(default=False)
     order_date = models.DateField()
+
+class productComment(models.Model):
+    sno = models.AutoField(primary_key=True)
+    comment = models.TextField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    product_item = models.ForeignKey(Products,on_delete=models.CASCADE,null=True)
+    parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment[0:15] + "..." + "by"+ settings.AUTH_USER_MODEL.username
+
+
+
+
 
 
 
