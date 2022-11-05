@@ -18,7 +18,7 @@
                     <input type="text">
                     <button class="cartController">+</button>
                     <strong>Save for later</strong>
-                    <strong>Remove</strong>
+                    <a href="{% url 'cartorderremove' item.product_id %}"><strong><button>Remove</button></strong></a>
                 </div>
             </div>
             {%endfor%}
@@ -28,7 +28,7 @@
             <strong>PRICE DETAILS</strong>
             <table class="cart_Details_Section">
                 <tr>
-                    <td>Price {{params | length}}</td>
+                    <td>Price ({{params | length}})</td>
                     <td>{{params | search_itemTotal:'product_OfferPrice'}}</td>
                 </tr>
                 <tr>
@@ -52,7 +52,9 @@
                     <td>{{params|search_itemTotal:'product_OfferPrice'|add:shipping_Charge}}</td>
                 </tr>
             </table>
+            {%if params %}
             <a href="/shop/checkout/deliveryaddress"><button class="displayAmountSection_CheckoutButton">Checkout</button></a>
+            {%endif%}
         </div>
     </section>
 {%endblock%}

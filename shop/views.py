@@ -86,9 +86,16 @@ def cart(request,productid):
     cartQry = Cart.objects.filter(buyer=request.user)
     obj = []
     for i in cartQry:
-        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
+        if i.product_id.product_quantity != 0:
+            obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
     obj1 = {'params':obj,'shipping_Charge':10}
     return render(request,'shop/cart.html',obj1)
+
+def cartorderremove(request,productid):
+    Cart.objects.get(buyer=request.user,product_id=productid).delete()    
+    messages.success(request,"Your Cart item has been deleted")
+    messages.tags = "success"
+    return redirect("/shop")
 
 def wishlist(request,productid):
     if not WishList.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
@@ -98,7 +105,7 @@ def wishlist(request,productid):
     cartQry = WishList.objects.filter(buyer=request.user)
     obj = []
     for i in cartQry:
-        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name})
+        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Quantity':i.product_id.product_quantity})
     obj1 = {'params':obj}
     return render(request,'shop/wishlist.html',obj1)
 
@@ -130,8 +137,9 @@ def paymentsection(request):
     obj = []
     request.session['totalpaybleamount'] = 0
     for i in cartQry:
-        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
-        request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + i.product_id.product_OfferPrice
+        if i.product_id.product_quantity !=0:
+            obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
+            request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + i.product_id.product_OfferPrice
     promocode_qry = PromoCode.objects.filter(display_promo=True).values()
     obj1 = {'params':obj,'promocode_qry':promocode_qry,'shipping_Charge':10}
     return render(request,'shop/paymentsection.html',obj1)
@@ -148,12 +156,25 @@ def promocodevalidate(request):
         return JsonResponse({'status':'Success','promocode':qry.promocode,'promocodeamt':request.session['totalpaybleamount'] - qry.fixed_amount_off})
 
 def pay(request):
+    productQuantity = 1
+    qry = Cart.objects.filter(buyer=request.user)
     messages.success(request,"Your Order has been made")
     messages.tags = "success"
-    qry = Cart.objects.filter(buyer=request.user)
+    product_QuantityFullfill = "These Products have out of Stock"
+    flag = False
     for item in qry:
-        Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date()).save()
+        if item.product_id.product_quantity > 0:
+            Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date()).save()
+            pro_qry = Products.objects.get(product_id = item.product_id.product_id)
+            pro_qry.product_quantity -=productQuantity
+            pro_qry.save()
+        else:
+            print("Flag Executed")
+            flag = True
+            product_QuantityFullfill+= "  "+item.product_id.product_Name
     qry.delete()    
+    if flag:
+        return HttpResponse(f"<h1>{product_QuantityFullfill}</h1>")
     return redirect("/shop/order")
 
 def order(request):

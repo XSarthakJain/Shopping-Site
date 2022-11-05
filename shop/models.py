@@ -14,8 +14,8 @@ class Products(models.Model):
     product_Company = models.CharField(max_length=50)
     product_Category = models.CharField(max_length=50)
     product_desc = models.CharField(max_length=200)
-    product_quantity = models.IntegerField(default=1,validators=[
-        MinValueValidator(0)])
+    product_quantity = models.IntegerField(default=1,validators=[MinValueValidator(0)])
+    product_Tax_Percent = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 
     def __str__(self):
         return self.product_Name

@@ -18,6 +18,7 @@ urlpatterns = [
     path('checkout/paymentsection',views.paymentsection,name="paymentsection"),
     path('checkout/promocodevalidate',views.promocodevalidate,name="promocodevalidate"),
     path('checkout/pay',views.pay,name="pay"),
-    path('order',views.order,name="order")
+    path('order',views.order,name="order"),
+    path('cartorderremove/<productid>',views.cartorderremove,name="cartorderremove")
 
 ]

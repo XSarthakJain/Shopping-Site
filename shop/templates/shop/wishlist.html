@@ -7,8 +7,10 @@
     <div class="wishlist_card_outer">
         <img src="{{item.product_pic.url}}" alt="wishlist_item" class="wishlist_card_img">
         <div>
-            <p class="wishlist_card_title">{{item.product_Name}}</p>
+            <a href="{%url 'productinfo' item.product_Name item.product_id %}"><p class="wishlist_card_title">{{item.product_Name}}</p></a>
+            {%if item.product_Quantity != 0 %}
             <a href="{%url 'cart' item.product_id %}"><button>Add to Cart</button></a>
+            {%endif%}
         </div>
     </div>
     {%endfor%}
