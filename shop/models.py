@@ -91,7 +91,7 @@ class productComment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.comment[0:15] + "..." + "by"+ settings.AUTH_USER_MODEL.username
+        return self.comment[0:15] + "..." + "by"+ settings.AUTH_USER_MODEL
 
 
 

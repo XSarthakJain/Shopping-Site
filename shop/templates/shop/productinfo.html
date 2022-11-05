@@ -3,25 +3,24 @@
 
 {% block body %}
 <section class="outerProductInfo">
-    {% for item in param%}
     <div class="ProductCatelogImageWrapper">
     <div class="ProductCatelogImage">
-        <a href="{%url 'wishlist' item.product_id %}"><span class="wishlishIcon"><i class="fa fa-heart"></i></span></a>
-        <img src="{{MEDIA_URL}}/media/{{item.product_Catelog}}" alt="Catelog Image">
+        <a href="{%url 'wishlist' params.product_id %}"><span class="wishlishIcon"><i class="fa fa-heart"></i></span></a>
+        <img src="{{MEDIA_URL}}/media/{{params.product_Catelog}}" alt="Catelog Image">
     </div>
 
-    {%if item.product_quantity != 0 %}
-    <a href="{%url 'cart' item.product_id %}"><button class="productCatelogActionButton">Add to Cart</button></a>
+    {%if params.product_quantity != 0 %}
+    <a href="{%url 'cart' params.product_id %}"><button class="productCatelogActionButton">Add to Cart</button></a>
     <button class="productCatelogActionButton Checkout">Checkout</button>
     {%else%}
     <a href=""><button class="productCatelogNotifyActionButton">Notify You</button></a>
     {%endif%}
     </div>
     <div class="ProductCatelogDetails">
-        <p class="ProductCatelogDetails_ProductName">{{item.product_Name}}</p>
+        <p class="ProductCatelogDetails_ProductName">{{params.product_Name}}</p>
         <p class="quickRating_ProductCatelogDetails"><span class="quickRating_ProductCatelogDetails_RatingIcon">4.2<i class="fa fa-star"></i></span>42,370 Ratings & 4,237 Reviews</p>
-        {%if item.product_quantity != 0 %}
-        <h1 class="ProductCatelogDetails_Price">₹{{item.product_OfferPrice}}<strike>₹{{item.product_Price}}</strike><span class="">29% off</span></h1>
+        {%if params.product_quantity != 0 %}
+        <h1 class="ProductCatelogDetails_Price">₹{{params.product_OfferPrice}}<strike>₹{{params.product_Price}}</strike><span class="">29% off</span></h1>
         {%else%}
         <strong class="notifyMessage">This Product is not available now, please click on notify button if you want to get notification once it get back</strong>
         {%endif%}
@@ -59,7 +58,40 @@
         </div>
 
     </div>
-    {%endfor%}
 </section>
+<section class="productCommentSectionOuter">
+    <form action="/shop/productCommentSubmission" method="post">
+        {% csrf_token %}
+        <input type="text" name="comment" placeholder="Please type your Comment">
+        <input type="hidden" name="productid" value="{{params.product_id}}">
+        <input type="submit" value="Submit">
+    </form>
 
+    {%for item in comments%}
+    <section class="productCommentSectionWrapper">
+    <img src="https://aiu.edu.eg/wp-content/uploads/2021/12/no-profile-pic.png" alt="profile Picture">
+    <div>
+    <strong>{{item.username}}</strong><br>
+    <p>{{item.comment}}</p>
+    <form action="productReplySubmission" method="post">
+        {% csrf_token %}
+        <input type="text" name="reply" placeholder="Please type your Reply">
+        <input type="hidden" name="productid" value="{{params.product_id}}">
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+    </section>
+    
+
+    <!-- Reply Section -->
+    <section class="productCommentSectionWrapper replySectionCard">
+        <img src="https://aiu.edu.eg/wp-content/uploads/2021/12/no-profile-pic.png" alt="profile Picture">
+        <div>
+        <strong>Harry</strong><br>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo, obcaecati officia, voluptate harum earum minus necessitatibus omnis, eveniet minima eos accusamus corrupti illum dolorum maxime aspernatur? Vitae quae molestias deserunt?</p>
+        </div>
+    </section>
+    {%endfor%}
+
+</section>
 {% endblock %}

@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
-from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode,Orderitem
+from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode,Orderitem,productComment
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -63,12 +63,15 @@ def logout_handle(request):
 # Create your views here.
 def productinfo(request,productname,productid):
     if productid:
-        print("ProductID",productid,productname)
         try:
-            qry = Products.objects.filter(product_id = productid).values()
-            print("===================Valuesssssssssssss",qry)
-            params = {'param':qry}
-            return render(request,'shop/productinfo.html',params)
+            params = Products.objects.get(product_id = productid)
+            qry = productComment.objects.filter(product_item= params)
+            comments = []
+            for item in qry:
+                comments.append({'username':item.user.username,'comment':item.comment})
+            
+            obj = {'params': params,'comments':comments}
+            return render(request,'shop/productinfo.html',obj)
         except:
             return HttpResponse("<h1>This Product is not available</h1>")
     return redirect("shop/")
@@ -184,3 +187,11 @@ def order(request):
         obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'order_date':i.order_date,'delivery_status':i.delivery_status})
     obj = {'params':obj}
     return render(request,'shop/order.html',obj)
+
+def productCommentSubmission(request):
+    if request.method == "POST":
+        comment = request.POST.get("comment",'')
+        productid = request.POST.get("productid","")
+        productComment(comment=comment,user=request.user,product_item=Products.objects.get(product_id=productid)).save()
+        
+    return redirect("/shop")
