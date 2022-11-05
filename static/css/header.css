@@ -4,42 +4,50 @@
     box-sizing: border-box;
 }
 .outerSectionHeader{
-    background-color: rgb(40,116,240);
+    background-color:#FFFFFF;
     width:100%;
-    min-height:60px;
+    min-height:80px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
+    box-shadow: 0 0 8px rgb(217, 210, 210);
 }
 .brandname{
-    width: 80px;
+    padding-top:12px;
+    margin-left:2em;
+    width: 120px;
 }
 
 .outerSectionHeader form input[type="text"]:first-child{
     min-width: 250px;
-    padding:10px;
+    padding:12px;
     width:30vw;
     outline:none;
     border:none;
     margin-left: 12px;
+    background-color: #E9ECEF;
+    border-radius: 4px;
 }
-.outerSectionHeader form input[type="button"]{
-    padding:9px;
+.outerSectionHeader form input[type="button"],.headerlogoutbtn{
+    /* padding:9px; */
     outline:none;
     border:none;
-    color:rgb(40,116,240);
+    /* color:rgb(40,116,240); */
+    color: #000000;
     font-weight: bolder;
     background-color: #FFFFFF;
     min-width:100px;
     margin-left:12px;
+    cursor: pointer;
 }
 .headerOptions{
-    color:#FFFFFF;
+    color: black;
     font-weight: bolder;
     text-decoration: none;
     list-style: none;
     display: inline-flex;
-    font-size: 16px;
+    font-size: 1em;
+    margin:auto;
 }
 
 .headerOptions li:first-child{

@@ -10,7 +10,7 @@
         <img src="{{sub_item.product_pic.url}}" alt="product pic" class="orderCard_Pic">
         <a href="#" class="orderCard_ProductName"><p>{{sub_item.product_Name}}</p>{{sub_item.order_date}}</a>
         {%if sub_item.delivery_status%}
-        <span class="orderCard_deliveredStatus"><i class="fa fa-truck"></i> Delivered </span>
+        <span class="orderCard_deliveredStatus"><i class="fa fa-truck"></i> Delivered <br><a href="">Invoice</a></span>
         {%else%}
         <span class="orderCard_deliveredStatus"><i class="fa fa-hourglass"></i> In Progress </span>
         {%endif%}

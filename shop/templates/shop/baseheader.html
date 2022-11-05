@@ -24,10 +24,14 @@
 </head>
 <body>
     <header class="outerSectionHeader">
-        <img src="{%static 'images/logo.png'%}" alt="logo" class="brandname">
+        <a href="/shop"><img src="{%static 'images/logo.png'%}" alt="logo" class="brandname"></a>
+        <!-- <ul class="headerOptions">
+            <li>MEN</li>
+            <li>WOMEN</li>
+        </ul> -->
         <form action="" method="get">
             <input type="text" placeholder="Search for Products, brands and name" name="searchBar">
-            <input type="button" value="Login">
+            <!-- <input type="button" value="Login"> -->
         </form>
             <ul class="headerOptions">
                 <li>Become a Seller</li>
@@ -35,15 +39,29 @@
                     <p style="margin-left:2em;">{{request.user}}</p>
                     <form action="/shop/logout" method="POST">
                         {% csrf_token %}
-                        <input type="submit" name="Logout">
+                        <input type="submit" value="Logout" class="headerlogoutbtn">
                     </form>
                 {% else %}
-                <li><a href="login">Login</a></li>
-                <li><a href="signup">SignUp</a> </li>
+                <li class="headerOptions"><a href="login" class="headerOptions">Login</a></li>
+                <li class="headerOptions"><a href="signup" class="headerOptions">SignUp</a> </li>
                 {% endif %}
+                <li class="headerOptions"><a href="" class="headerOptions">Profile</a></li>
+                <li class="headerOptions"><a href="" class="headerOptions">Wishlist</a></li>
+                <li class="headerOptions"><a href="" class="headerOptions">Cart</a></li>
+
             </ul>
         
     </header>
+    <br>
+    {%if messages%}
+    <div class="alertWrapper">
+    <ul class="messages">
+        {%for message in messages%}
+        <li{% if message.tags %} class="{{message.tags}}" {%endif%}>{{message}}</li>
+        {%endfor%}
+    </ul>
+    </div>
+    {%endif%}
     {%block body%}{%endblock%}
 </body>
 </html>
