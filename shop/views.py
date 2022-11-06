@@ -69,15 +69,15 @@ def productinfo(request,productname,productid):
     qry = productComment.objects.filter(product_item= params,parent=None)
     comments = []
     for item in qry:
-        comments.append({'username':item.user.first_name,'comment':item.comment,'sno':item.sno})
+        comments.append({'firstname':item.user.first_name,'lastname':item.user.last_name,'comment':item.comment,'sno':item.sno,'date':item.timestamp,'rating':item.rating})
     replies = productComment.objects.filter(product_item= params).exclude(parent=None)
     replyDict = {}
     for item in replies:
         # print("replyDict==============",item.user.first_name)
         if item.parent.sno not in replyDict.keys():
-            replyDict[item.parent.sno] = [{"comment":item.comment,"username":item.user.first_name}]
+            replyDict[item.parent.sno] = [{"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating}]
         else:
-            replyDict[item.parent.sno].append({"comment":item.comment,"username":item.user.first_name})
+            replyDict[item.parent.sno].append({"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating})
     #print("reply=====1111111111111111111111===",replyDict)
     obj = {'params': params,'comments':comments,'replies':replyDict}
     return render(request,'shop/productinfo.html',obj)

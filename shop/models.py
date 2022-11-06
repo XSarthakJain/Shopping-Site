@@ -3,7 +3,7 @@ from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.conf import settings
 import uuid
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator,MaxValueValidator
 # Create your models here.
 class Products(models.Model):
     product_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable = False)
@@ -89,6 +89,7 @@ class productComment(models.Model):
     product_item = models.ForeignKey(Products,on_delete=models.CASCADE,null=True)
     parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField(default=0,validators=[MinValueValidator(0),MaxValueValidator(5)])
 
     # def __str__(self):
     #     return self.comment[0:15] + "..." + "by"+ settings.AUTH_USER_MODEL

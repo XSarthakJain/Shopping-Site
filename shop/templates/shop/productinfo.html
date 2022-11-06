@@ -69,9 +69,13 @@
 
     {%for item in comments%}
     <section class="productCommentSectionWrapper">
-    <img src="https://aiu.edu.eg/wp-content/uploads/2021/12/no-profile-pic.png" alt="profile Picture">
+    <span class="commentProfilePic">{{item.firstname|slice:"1"}}{{item.lastname|slice:"1"}}</span>
     <div>
-    <strong>{{item.username}}</strong><br>
+    <strong>{{item.firstname}}</strong><span class="commentPostDate">{{item.date|date:"j M Y"}}</span>
+    {%if item.rating != 0%}
+    <i class="fa fa-star commentPostRatingStar">&nbsp;{{item.rating}}</i>
+    {%endif%}
+    <br>
     <p>{{item.comment}}</p>
     <form action="/shop/productCommentSubmission" method="post">
         {% csrf_token %}
@@ -87,9 +91,13 @@
     <!-- Reply Section -->
     {%for reply in replies|getValue:item.sno%}
     <section class="productCommentSectionWrapper replySectionCard">
-        <img src="https://aiu.edu.eg/wp-content/uploads/2021/12/no-profile-pic.png" alt="profile Picture">
+        <span class="commentProfilePic">{{reply.firstname|slice:"1"}}{{reply.lastname|slice:"1"}}</span>
         <div>
-        <strong>{{reply.username}}</strong><br>
+        <strong>{{reply.firstname}}</strong><span class="commentPostDate">{{item.date|date:"j M Y"}}</span>
+        {%if reply.rating != 0%}
+        <i class="fa fa-star commentPostRatingStar">&nbsp;{{reply.rating}}</i>
+        {%endif%}
+        <br>
         <p>{{reply.comment}}</p>
         </div>
     </section>
