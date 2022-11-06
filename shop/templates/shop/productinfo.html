@@ -1,6 +1,6 @@
 {% extends 'shop/baseheader.html' %}
 {% block title%} productinfo {% endblock %}
-
+{% load poll_extras %}
 {% block body %}
 <section class="outerProductInfo">
     <div class="ProductCatelogImageWrapper">
@@ -73,10 +73,11 @@
     <div>
     <strong>{{item.username}}</strong><br>
     <p>{{item.comment}}</p>
-    <form action="productReplySubmission" method="post">
+    <form action="/shop/productCommentSubmission" method="post">
         {% csrf_token %}
-        <input type="text" name="reply" placeholder="Please type your Reply">
+        <input type="text" name="comment" placeholder="Please type your Reply">
         <input type="hidden" name="productid" value="{{params.product_id}}">
+        <input type="hidden" name="parentid" value="{{item.sno}}">
         <input type="submit" value="Submit">
     </form>
     </div>
@@ -84,13 +85,15 @@
     
 
     <!-- Reply Section -->
+    {%for reply in replies|getValue:item.sno%}
     <section class="productCommentSectionWrapper replySectionCard">
         <img src="https://aiu.edu.eg/wp-content/uploads/2021/12/no-profile-pic.png" alt="profile Picture">
         <div>
-        <strong>Harry</strong><br>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo, obcaecati officia, voluptate harum earum minus necessitatibus omnis, eveniet minima eos accusamus corrupti illum dolorum maxime aspernatur? Vitae quae molestias deserunt?</p>
+        <strong>{{reply.username}}</strong><br>
+        <p>{{reply.comment}}</p>
         </div>
     </section>
+    {%endfor%}
     {%endfor%}
 
 </section>

@@ -13,5 +13,10 @@ def search_itemTotal(dict_v,search_item):
 def subtract(item1,item2):
     return  item2-item1
 
+@register.filter(name='getValue')
+def getValue(item,key):
+    # print("Template Filter=============",item)
+    return item.get(key)
+
 register.filter('search_itemTotal',search_itemTotal)
 register.filter('subtract',subtract)

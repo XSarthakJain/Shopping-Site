@@ -90,8 +90,8 @@ class productComment(models.Model):
     parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.comment[0:15] + "..." + "by"+ settings.AUTH_USER_MODEL
+    # def __str__(self):
+    #     return self.comment[0:15] + "..." + "by"+ settings.AUTH_USER_MODEL
 
 
 

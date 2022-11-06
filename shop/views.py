@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib import messages
+from shop.templatetags import poll_extras
 import datetime
 
 def index(request):
@@ -62,18 +63,26 @@ def logout_handle(request):
 
 # Create your views here.
 def productinfo(request,productname,productid):
-    if productid:
-        try:
-            params = Products.objects.get(product_id = productid)
-            qry = productComment.objects.filter(product_item= params)
-            comments = []
-            for item in qry:
-                comments.append({'username':item.user.username,'comment':item.comment})
-            
-            obj = {'params': params,'comments':comments}
-            return render(request,'shop/productinfo.html',obj)
-        except:
-            return HttpResponse("<h1>This Product is not available</h1>")
+    # if productid:
+    #     try:
+    params = Products.objects.get(product_id = productid)
+    qry = productComment.objects.filter(product_item= params,parent=None)
+    comments = []
+    for item in qry:
+        comments.append({'username':item.user.first_name,'comment':item.comment,'sno':item.sno})
+    replies = productComment.objects.filter(product_item= params).exclude(parent=None)
+    replyDict = {}
+    for item in replies:
+        # print("replyDict==============",item.user.first_name)
+        if item.parent.sno not in replyDict.keys():
+            replyDict[item.parent.sno] = [{"comment":item.comment,"username":item.user.first_name}]
+        else:
+            replyDict[item.parent.sno].append({"comment":item.comment,"username":item.user.first_name})
+    #print("reply=====1111111111111111111111===",replyDict)
+    obj = {'params': params,'comments':comments,'replies':replyDict}
+    return render(request,'shop/productinfo.html',obj)
+        # except:
+        #     return HttpResponse("<h1>This Product is not available</h1>")
     return redirect("shop/")
 def category(request,search):
     params={"search":search}
@@ -192,6 +201,12 @@ def productCommentSubmission(request):
     if request.method == "POST":
         comment = request.POST.get("comment",'')
         productid = request.POST.get("productid","")
-        productComment(comment=comment,user=request.user,product_item=Products.objects.get(product_id=productid)).save()
+        parentid = request.POST.get("parentid",'')
+        print('request.POST.get("parentid")',parentid)
+        if request.POST.get("parentid"):
+            print('request.POST.get("parentid")',request.POST.get("parentid"))
+            productComment(comment=comment,user=request.user,product_item=Products.objects.get(product_id=productid),parent=productComment.objects.get(sno=request.POST.get("parentid"))).save()
+        else:
+            productComment(comment=comment,user=request.user,product_item=Products.objects.get(product_id=productid)).save()
         
     return redirect("/shop")
