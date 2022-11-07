@@ -59,14 +59,18 @@
 
     </div>
 </section>
+
+
 <section class="productCommentSectionOuter">
+    <div class="productCommentSectionLeftSide">
+    {%if permissionScope%}
     <form action="/shop/productCommentSubmission" method="post">
         {% csrf_token %}
         <input type="text" name="comment" placeholder="Please type your Comment">
         <input type="hidden" name="productid" value="{{params.product_id}}">
         <input type="submit" value="Submit">
     </form>
-
+    {%endif%}
     {%for item in comments%}
     <section class="productCommentSectionWrapper">
     <span class="commentProfilePic">{{item.firstname|slice:"1"}}{{item.lastname|slice:"1"}}</span>
@@ -77,6 +81,7 @@
     {%endif%}
     <br>
     <p>{{item.comment}}</p>
+    {%if permissionScope%}
     <form action="/shop/productCommentSubmission" method="post">
         {% csrf_token %}
         <input type="text" name="comment" placeholder="Please type your Reply">
@@ -84,6 +89,7 @@
         <input type="hidden" name="parentid" value="{{item.sno}}">
         <input type="submit" value="Submit">
     </form>
+    {%endif%}
     </div>
     </section>
     
@@ -103,6 +109,24 @@
     </section>
     {%endfor%}
     {%endfor%}
+    </div>
+    <div class="productCommentSectionRightSide">
+        <h4 class="productCommentSectionRightSideHeading">Ratings&nbsp;<i class="fa fa-star"></i></i></h4>
+        <div class="productCommentSectionRightSideInner">
+            <div class="productCommentSectionRightSideInnerFirst">
+                <h1>3.7 <i class="fa fa-star" style="color:yellow;"></i></h1>
+                <p>{{noOfBuyer}} verified buyers</p>
+            </div>
+            <div class="productCommentSectionRightSideInnerSecond">
+                <span><i class="fa fa-star commentPostRatingStar">1</i><progress id="file" value="{{rating.first}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.first}}</span><br>
+                <span><i class="fa fa-star commentPostRatingStar">3</i><progress id="file" value="{{rating.second}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.second}}</span><br>
+                <span><i class="fa fa-star commentPostRatingStar">2</i><progress id="file" value="{{rating.third}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.third}}</span><br>
+                <span><i class="fa fa-star commentPostRatingStar">4</i><progress id="file" value="{{rating.four}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.four}}</span><br>
+                <span><i class="fa fa-star commentPostRatingStar">5</i><progress id="file" value="{{rating.five}}" max="{{total_rating}}"> 12% </progress>&nbsp;{{rating.five}}</span><br>
+            </div>
+        </div>
+    </div>
 
 </section>
+
 {% endblock %}

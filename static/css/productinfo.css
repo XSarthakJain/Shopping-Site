@@ -155,6 +155,11 @@
 
 .productCommentSectionOuter{
     padding:2em;
+    display: flex;
+    width:100%;
+}
+.productCommentSectionLeftSide{
+    width:60%;
 }
 .productCommentSectionOuter input[type="text"]{
     padding:8px;
@@ -210,4 +215,34 @@ section.productCommentSectionWrapper{
     padding:4px;
     font-size: small;
     margin-left:1em;
+    margin-right:8px;
+}
+.productCommentSectionRightSide{
+    width:30%;
+    padding:2em;
+}
+.productCommentSectionRightSideHeading{
+    color: #282C3F;
+    font-size: x-large;
+    text-transform: uppercase;
+}
+.productCommentSectionRightSideInner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height:100%;
+}
+
+.productCommentSectionRightSideInnerFirst,.productCommentSectionRightSideInnerSecond{
+    width:50%;
+}
+.productCommentSectionRightSideInnerSecond{
+    border-left:1px solid #E9ECEF;
+}
+.productCommentSectionRightSideInnerFirst h1{
+    font-size: xxx-large;
+}
+.productCommentSectionRightSideInnerSecond span{
+    display: flex;
 }

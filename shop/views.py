@@ -68,18 +68,48 @@ def productinfo(request,productname,productid):
     params = Products.objects.get(product_id = productid)
     qry = productComment.objects.filter(product_item= params,parent=None)
     comments = []
+    rating = {"first":0,"second":0,"third":0,"four":0,"five":0}
     for item in qry:
+        if item.rating == 1:
+            rating["first"]+=1
+        elif item.rating == 2:
+            rating["second"]+=1
+        elif item.rating == 3:
+            rating["third"]+=1
+        elif item.rating == 4:
+            rating["four"]+=1
+        elif item.rating == 5:
+            rating["five"]+=1
+        
         comments.append({'firstname':item.user.first_name,'lastname':item.user.last_name,'comment':item.comment,'sno':item.sno,'date':item.timestamp,'rating':item.rating})
     replies = productComment.objects.filter(product_item= params).exclude(parent=None)
     replyDict = {}
     for item in replies:
+        if item.rating == 1:
+            rating["first"]+=1
+        elif item.rating == 2:
+            rating["second"]+=1
+        elif item.rating == 3:
+            rating["third"]+=1
+        elif item.rating == 4:
+            rating["four"]+=1
+        elif item.rating == 5:
+            rating["five"]+=1
         # print("replyDict==============",item.user.first_name)
         if item.parent.sno not in replyDict.keys():
             replyDict[item.parent.sno] = [{"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating}]
         else:
             replyDict[item.parent.sno].append({"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating})
+    orderQry = Orderitem.objects.filter(product_id=params)  
+    permissionScope = False     
+    noOfBuyer = set()
+    for orderitem in orderQry:
+        if orderitem.buyer == request.user:
+            permissionScope = True
+        noOfBuyer.add(orderitem.buyer)
     #print("reply=====1111111111111111111111===",replyDict)
-    obj = {'params': params,'comments':comments,'replies':replyDict}
+    total_rating = sum(rating.values())
+    obj = {'params': params,'comments':comments,'replies':replyDict,'permissionScope':permissionScope,'noOfBuyer':len(noOfBuyer),'rating':rating,'total_rating':total_rating}
     return render(request,'shop/productinfo.html',obj)
         # except:
         #     return HttpResponse("<h1>This Product is not available</h1>")
