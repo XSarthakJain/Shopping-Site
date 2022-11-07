@@ -9,6 +9,7 @@ from .models import DeliveryAddress
 from .models import PromoCode
 from .models import Orderitem
 from .models import productComment
+from .models import Product_features
 # Register your models here.
 admin.site.register(Products)
 admin.site.register(Cart)
@@ -19,3 +20,4 @@ admin.site.register(DeliveryAddress)
 admin.site.register(PromoCode)
 admin.site.register(Orderitem)
 admin.site.register(productComment)
+admin.site.register(Product_features)

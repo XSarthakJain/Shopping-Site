@@ -19,7 +19,10 @@ class Products(models.Model):
 
     def __str__(self):
         return self.product_Name
-
+class Product_features(models.Model):
+    product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
+    product_feature_Name = models.CharField(max_length=200)
+    product_feature_Value = models.CharField(max_length=200)
 class Cart(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
@@ -71,6 +74,7 @@ class PromoCode(models.Model):
     min_purchase = models.IntegerField()
     fixed_amount_off = models.IntegerField()
     promocode_desc = models.CharField(max_length=200,default='')
+    promocode_provider = models.CharField(max_length=200,default='')
     display_promo = models.BooleanField(default=False)
 
     def __str__(self):

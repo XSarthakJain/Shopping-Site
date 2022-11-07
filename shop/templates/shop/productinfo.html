@@ -18,31 +18,30 @@
     </div>
     <div class="ProductCatelogDetails">
         <p class="ProductCatelogDetails_ProductName">{{params.product_Name}}</p>
-        <p class="quickRating_ProductCatelogDetails"><span class="quickRating_ProductCatelogDetails_RatingIcon">4.2<i class="fa fa-star"></i></span>42,370 Ratings & 4,237 Reviews</p>
+        <p class="quickRating_ProductCatelogDetails"><span class="quickRating_ProductCatelogDetails_RatingIcon">{{overall_productRating}}<i class="fa fa-star"></i></span>{{total_rating}} Ratings & {{noOfReview}} Reviews</p>
         {%if params.product_quantity != 0 %}
-        <h1 class="ProductCatelogDetails_Price">₹{{params.product_OfferPrice}}<strike>₹{{params.product_Price}}</strike><span class="">29% off</span></h1>
+        <h1 class="ProductCatelogDetails_Price">₹{{params.product_OfferPrice}}<strike>₹{{params.product_Price}}</strike><span class="">{{params.product_OfferPrice|percentage:params.product_Price}} Off</span></h1>
         {%else%}
         <strong class="notifyMessage">This Product is not available now, please click on notify button if you want to get notification once it get back</strong>
         {%endif%}
         <div class="offerSection">
             <p>Available Offers</p>
             <ul>
-                <li><strong class="offerProvider">Bank Offer</strong> 10% off on SBI Credit Card, up to ₹1,250, on orders of ₹5000 and above</li>
-                <li><strong class="offerProvider">Bank Offer</strong> 10% off on SBI Credit Card, up to ₹1,250, on orders of ₹5000 and above</li>
-                <li><strong class="offerProvider">Bank Offer</strong> 10% off on SBI Credit Card, up to ₹1,250, on orders of ₹5000 and above</li>
-                <li><strong class="offerProvider">Bank Offer</strong> 10% off on SBI Credit Card, up to ₹1,250, on orders of ₹5000 and above</li>
+                {%for promocode in promocode_offer_qry%}
+                <li><strong class="offerProvider">{{promocode.promocode_provider}} </strong>{{promocode.promocode_desc}}</li>
+                {%endfor%}
             </ul>
         </div>
 
         <div class="">
-            <table >
+            <!-- <table >
                 <tr>
                     <td>Color</td>
                     <td class="productColor"><img src="https://rukminim1.flixcart.com/image/60/60/l19m93k0/mobile/w/0/6/-original-imagcv2dcyjzcmvd.jpeg?q=20"></td>
                     <td class="productColor"><img src="https://rukminim1.flixcart.com/image/60/60/l19m93k0/mobile/w/0/6/-original-imagcv2dcyjzcmvd.jpeg?q=20"></td>
                     <td class="productColor"><img src="https://rukminim1.flixcart.com/image/60/60/l19m93k0/mobile/w/0/6/-original-imagcv2dcyjzcmvd.jpeg?q=20"></td>
                 </tr>
-            </table>
+            </table> -->
         </div>
 
         <div class="productSpecifications">
@@ -50,10 +49,13 @@
                 <tr>
                     <td>Specifications</td>
                 </tr>
+                
+                {%for specification in product_feature%}
                 <tr>
-                    <td>In the Box</td>
-                    <td>Charger</td>
+                    <td>{{specification.product_feature_Name}}</td>
+                    <td>{{specification.product_feature_Value}}</td>
                 </tr>
+                {%endfor%}
             </table>
         </div>
 
@@ -114,13 +116,13 @@
         <h4 class="productCommentSectionRightSideHeading">Ratings&nbsp;<i class="fa fa-star"></i></i></h4>
         <div class="productCommentSectionRightSideInner">
             <div class="productCommentSectionRightSideInnerFirst">
-                <h1>3.7 <i class="fa fa-star" style="color:yellow;"></i></h1>
+                <h1>{{overall_productRating}} <i class="fa fa-star" style="color:yellow;"></i></h1>
                 <p>{{noOfBuyer}} verified buyers</p>
             </div>
             <div class="productCommentSectionRightSideInnerSecond">
                 <span><i class="fa fa-star commentPostRatingStar">1</i><progress id="file" value="{{rating.first}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.first}}</span><br>
-                <span><i class="fa fa-star commentPostRatingStar">3</i><progress id="file" value="{{rating.second}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.second}}</span><br>
-                <span><i class="fa fa-star commentPostRatingStar">2</i><progress id="file" value="{{rating.third}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.third}}</span><br>
+                <span><i class="fa fa-star commentPostRatingStar">2</i><progress id="file" value="{{rating.second}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.second}}</span><br>
+                <span><i class="fa fa-star commentPostRatingStar">3</i><progress id="file" value="{{rating.third}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.third}}</span><br>
                 <span><i class="fa fa-star commentPostRatingStar">4</i><progress id="file" value="{{rating.four}}" max="{{total_rating}}"> 32% </progress>&nbsp;{{rating.four}}</span><br>
                 <span><i class="fa fa-star commentPostRatingStar">5</i><progress id="file" value="{{rating.five}}" max="{{total_rating}}"> 12% </progress>&nbsp;{{rating.five}}</span><br>
             </div>

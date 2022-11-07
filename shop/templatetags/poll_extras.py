@@ -1,5 +1,5 @@
 from django import template
-
+from math import ceil
 register = template.Library()
 
 def search_itemTotal(dict_v,search_item):
@@ -13,6 +13,9 @@ def search_itemTotal(dict_v,search_item):
 def subtract(item1,item2):
     return  item2-item1
 
+def percentage(value,totalValue):
+    return f"{ceil((value/totalValue)*100)}%"
+
 @register.filter(name='getValue')
 def getValue(item,key):
     # print("Template Filter=============",item)
@@ -20,3 +23,4 @@ def getValue(item,key):
 
 register.filter('search_itemTotal',search_itemTotal)
 register.filter('subtract',subtract)
+register.filter('percentage',percentage)

@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
-from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode,Orderitem,productComment
+from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode,Orderitem,productComment,Product_features
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -101,6 +101,13 @@ def productinfo(request,productname,productid):
         else:
             replyDict[item.parent.sno].append({"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating})
     orderQry = Orderitem.objects.filter(product_id=params)  
+    # Promo Code Offer
+    promocode_offer_qry = PromoCode.objects.filter(display_promo=True).values()
+    # 
+
+    # Product Feature
+    product_feature = Product_features.objects.filter(product_id=params).values()
+    #
     permissionScope = False     
     noOfBuyer = set()
     for orderitem in orderQry:
@@ -109,7 +116,8 @@ def productinfo(request,productname,productid):
         noOfBuyer.add(orderitem.buyer)
     #print("reply=====1111111111111111111111===",replyDict)
     total_rating = sum(rating.values())
-    obj = {'params': params,'comments':comments,'replies':replyDict,'permissionScope':permissionScope,'noOfBuyer':len(noOfBuyer),'rating':rating,'total_rating':total_rating}
+    overall_productRating = round((1*rating['first']+2*rating['second']+3*rating['third']+4*rating['four']+5*rating['five'])/total_rating,1)
+    obj = {'params': params,'comments':comments,'replies':replyDict,'permissionScope':permissionScope,'noOfBuyer':len(noOfBuyer),'rating':rating,'total_rating':total_rating,'noOfReview':len(qry)+len(replies),'overall_productRating':overall_productRating,'promocode_offer_qry':promocode_offer_qry,'product_feature':product_feature}
     return render(request,'shop/productinfo.html',obj)
         # except:
         #     return HttpResponse("<h1>This Product is not available</h1>")
@@ -220,7 +228,8 @@ def pay(request):
     return redirect("/shop/order")
 
 def order(request):
-    qry = Orderitem.objects.filter(buyer=request.user)
+    query_arguments = {'buyer':request.user}
+    qry = Orderitem.objects.filter(**query_arguments)
     obj = []
     for i in qry:
         obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'order_date':i.order_date,'delivery_status':i.delivery_status})
