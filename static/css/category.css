@@ -67,3 +67,22 @@ strong.productinfoProductName{
     font-size: large;
     margin-top:0.5em;
 }
+.pageinationWrapper{
+    padding:2em;
+    display:flex;
+    justify-content: right;
+}
+
+.pageinationWrapper a{
+    border:1px solid #E9ECEF;
+    background-color: gray;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin: 8px;
+    padding:8px;
+}
+.pagination_currentpage{
+    background-color: #0c6bca !important;
+    color: #FFFFFF !important;
+   
+}

@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from shop.templatetags import poll_extras
 import datetime
+from django.core.paginator import Paginator
 
 def index(request):
     qry = Deshboard.objects.all().order_by('deshboard__rank')
@@ -129,7 +130,10 @@ def productinfo(request,productname,productid):
 def category(request,search):
     params={"search":search}
     obj = Products.objects.filter(product_Category=search).values()
-    print("@@@@@@@@@@@@@@@@@@@@@@@",obj)
+    number_of_records = 2
+    paginator = Paginator(obj,number_of_records)
+    page_number = request.GET.get('page')
+    obj = paginator.get_page(page_number)
     params = {'pro_data': obj}
     return render(request,'shop/category.html',params)
 def cart(request,productid):

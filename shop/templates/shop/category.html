@@ -19,5 +19,16 @@
     </a>
     {%endfor%}
 
+   
+
 </section>
+<div class="pageinationWrapper">
+    {% if pro_data.has_previous %}
+    <a href="?page={{ pro_data.previous_page_number }}"> <i class="fa fa-chevron-left"></i></a>
+    {%endif%}
+    <a class="pagination_currentpage">{{ pro_data.number }} of  {{ pro_data.paginator.num_pages }}</a>
+    {% if pro_data.has_next %}
+    <a href="?page={{ pro_data.next_page_number }}"><i class="fa fa-chevron-right"></i> </a>
+    {%endif%}
+</div>
 {% endblock%}
