@@ -65,58 +65,62 @@ def logout_handle(request):
 def productinfo(request,productname,productid):
     # if productid:
     #     try:
-    params = Products.objects.get(product_id = productid)
-    qry = productComment.objects.filter(product_item= params,parent=None)
-    comments = []
-    rating = {"first":0,"second":0,"third":0,"four":0,"five":0}
-    for item in qry:
-        if item.rating == 1:
-            rating["first"]+=1
-        elif item.rating == 2:
-            rating["second"]+=1
-        elif item.rating == 3:
-            rating["third"]+=1
-        elif item.rating == 4:
-            rating["four"]+=1
-        elif item.rating == 5:
-            rating["five"]+=1
-        
-        comments.append({'firstname':item.user.first_name,'lastname':item.user.last_name,'comment':item.comment,'sno':item.sno,'date':item.timestamp,'rating':item.rating})
-    replies = productComment.objects.filter(product_item= params).exclude(parent=None)
-    replyDict = {}
-    for item in replies:
-        if item.rating == 1:
-            rating["first"]+=1
-        elif item.rating == 2:
-            rating["second"]+=1
-        elif item.rating == 3:
-            rating["third"]+=1
-        elif item.rating == 4:
-            rating["four"]+=1
-        elif item.rating == 5:
-            rating["five"]+=1
-        # print("replyDict==============",item.user.first_name)
-        if item.parent.sno not in replyDict.keys():
-            replyDict[item.parent.sno] = [{"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating}]
-        else:
-            replyDict[item.parent.sno].append({"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating})
-    orderQry = Orderitem.objects.filter(product_id=params)  
-    # Promo Code Offer
-    promocode_offer_qry = PromoCode.objects.filter(display_promo=True).values()
-    # 
+    try:
+        params = Products.objects.get(product_id = productid)
+        qry = productComment.objects.filter(product_item= params,parent=None)
+        comments = []
+        rating = {"first":0,"second":0,"third":0,"four":0,"five":0}
+        for item in qry:
+            if item.rating == 1:
+                rating["first"]+=1
+            elif item.rating == 2:
+                rating["second"]+=1
+            elif item.rating == 3:
+                rating["third"]+=1
+            elif item.rating == 4:
+                rating["four"]+=1
+            elif item.rating == 5:
+                rating["five"]+=1
+            
+            comments.append({'firstname':item.user.first_name,'lastname':item.user.last_name,'comment':item.comment,'sno':item.sno,'date':item.timestamp,'rating':item.rating})
+        replies = productComment.objects.filter(product_item= params).exclude(parent=None)
+        replyDict = {}
+        for item in replies:
+            if item.rating == 1:
+                rating["first"]+=1
+            elif item.rating == 2:
+                rating["second"]+=1
+            elif item.rating == 3:
+                rating["third"]+=1
+            elif item.rating == 4:
+                rating["four"]+=1
+            elif item.rating == 5:
+                rating["five"]+=1
+            # print("replyDict==============",item.user.first_name)
+            if item.parent.sno not in replyDict.keys():
+                replyDict[item.parent.sno] = [{"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating}]
+            else:
+                replyDict[item.parent.sno].append({"comment":item.comment,'firstname':item.user.first_name,'lastname':item.user.last_name,'date':item.timestamp,'rating':item.rating})
+        orderQry = Orderitem.objects.filter(product_id=params)  
+        # Promo Code Offer
+        promocode_offer_qry = PromoCode.objects.filter(display_promo=True).values()
+        # 
 
-    # Product Feature
-    product_feature = Product_features.objects.filter(product_id=params).values()
-    #
-    permissionScope = False     
-    noOfBuyer = set()
-    for orderitem in orderQry:
-        if orderitem.buyer == request.user:
-            permissionScope = True
-        noOfBuyer.add(orderitem.buyer)
-    #print("reply=====1111111111111111111111===",replyDict)
-    total_rating = sum(rating.values())
-    overall_productRating = round((1*rating['first']+2*rating['second']+3*rating['third']+4*rating['four']+5*rating['five'])/total_rating,1)
+        # Product Feature
+        product_feature = Product_features.objects.filter(product_id=params).values()
+        #
+        permissionScope = False     
+        noOfBuyer = set()
+        for orderitem in orderQry:
+            if orderitem.buyer == request.user:
+                permissionScope = True
+            noOfBuyer.add(orderitem.buyer)
+        #print("reply=====1111111111111111111111===",replyDict)
+        total_rating = sum(rating.values())
+        overall_productRating = ""
+        overall_productRating = round((1*rating['first']+2*rating['second']+3*rating['third']+4*rating['four']+5*rating['five'])/total_rating,1)
+    except:
+        pass
     obj = {'params': params,'comments':comments,'replies':replyDict,'permissionScope':permissionScope,'noOfBuyer':len(noOfBuyer),'rating':rating,'total_rating':total_rating,'noOfReview':len(qry)+len(replies),'overall_productRating':overall_productRating,'promocode_offer_qry':promocode_offer_qry,'product_feature':product_feature}
     return render(request,'shop/productinfo.html',obj)
         # except:

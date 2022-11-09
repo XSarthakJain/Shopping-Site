@@ -2,6 +2,7 @@
 {% block title%} productinfo {% endblock %}
 {% load poll_extras %}
 {% block body %}
+<div>
 <section class="outerProductInfo">
     <div class="ProductCatelogImageWrapper">
     <div class="ProductCatelogImage">
@@ -44,6 +45,7 @@
             </table> -->
         </div>
 
+        {%if product_feature %}
         <div class="productSpecifications">
             <table>
                 <tr>
@@ -58,13 +60,16 @@
                 {%endfor%}
             </table>
         </div>
+        {%endif%}
 
     </div>
 </section>
 
 
+
 <section class="productCommentSectionOuter">
     <div class="productCommentSectionLeftSide">
+    {% if comments %}
     {%if permissionScope%}
     <form action="/shop/productCommentSubmission" method="post">
         {% csrf_token %}
@@ -112,6 +117,7 @@
     {%endfor%}
     {%endfor%}
     </div>
+    {%endif%}
     <div class="productCommentSectionRightSide">
         <h4 class="productCommentSectionRightSideHeading">Ratings&nbsp;<i class="fa fa-star"></i></i></h4>
         <div class="productCommentSectionRightSideInner">

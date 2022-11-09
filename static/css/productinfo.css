@@ -2,6 +2,7 @@
     background-color: #FFFFFF;
     display:flex;
     padding: 2em;
+    width:100%;
 }
 .ProductCatelogImageWrapper{
     width:33%;
@@ -11,6 +12,11 @@
     border: 1px solid #E9ECEF;
     padding:2em;
     margin-bottom: 1em;
+    height:60vh;
+}
+.ProductCatelogImage img{
+    max-height: 60vh;
+    object-fit: contain;
 }
 
 
