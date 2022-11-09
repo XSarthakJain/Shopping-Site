@@ -5,15 +5,15 @@
     <!-- <h1>Search item: {{search}}</h1><br> -->
     {% for item in pro_data%}
     
-    <a href="{% url 'productinfo' item.product_Name item.product_id %}">
+    <a href="{% url 'productinfo' item.product_Name item.product_id %}" style="text-decoration:none;">
     <div class="categoryCard">
         <img src="{{ MEDIA_URL }}/media/{{item.product_Catelog}}" alt="Card Pic">
         <div class="categoryCardDisc">
-            <strong>{{item.product_Name}}</strong>
-            <p>{{item.product_desc}}</p>
-            <h2>{{item.product_OfferPrice}}</h2>
-            <a href="{{item.product_id}}"><button>Add To CART</button></a>
-            <a href="{{item.product_id}}"><button>Checkout</button></a>
+            <strong class="productinfoProductName">{{item.product_Name}}</strong>
+            <p class="productinfoProductDesc">{{item.product_desc}}</p>
+            <h2 class="productinfoProductPrice">{{item.product_OfferPrice}}</h2>
+            <a href="{{item.product_id}}"><button class="ProductInfoaddToCart">Add To CART</button></a>
+            <!--   -->
         </div>
     </div>
     </a>

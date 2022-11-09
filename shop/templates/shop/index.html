@@ -6,12 +6,12 @@
 
 {%block body%}
 
-<section class="briefProductSection">
+<!-- <section class="briefProductSection">
     <div class="briefProductSectionContainer"><img src="{%static 'images/topOffer.webp'%}"><p>Top Offers</p></div>
     <div class="briefProductSectionContainer"><img src="{%static 'images/mobiles&Tablets.webp'%}"><p>Top Offers</p></div>
     <div class="briefProductSectionContainer"><img src="{%static 'images/topOffer.webp'%}"><p>Top Offers</p></div>
     <div class="briefProductSectionContainer"><img src="{%static 'images/topOffer.webp'%}"><p>Top Offers</p></div>
-</section>
+</section> -->
 <!-- Banner Section -->
 <section class="bannerSection">
     <div class="bannerImage"></div>
@@ -31,7 +31,7 @@
         <div class="productshelf_Product">
             <img src="{{sub_value.deshboard_Product_Catelog.url}}">
             <div class="productshelf_ProductDetails">
-                <label class="actionPointlabel" >{{sub_value.deshboard_Product_Description}}</label>
+                <label class="actionPointlabel" ><span>{{sub_value.deshboard_Product_Description}}</span></label>
                 <p class="productshelf_ProductDetailsName">{{sub_value.deshboard_Product_Name}}</p>
             </div>
         </div>

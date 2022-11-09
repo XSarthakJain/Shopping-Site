@@ -1,8 +1,8 @@
 .briefProductSection{
     min-height:80px;
     width: 100vw;
-    background-color: #FFFFFF;
-    box-shadow: 1px 1px 2px 0px #a1a3a4;
+    /* background-color: #FFFFFF;
+    box-shadow: 1px 1px 2px 0px #a1a3a4; */
     padding:1em;
 }
 
@@ -11,17 +11,17 @@
     display: flex;
 }
 .briefProductSectionContainer{
-    margin-left:4em;
+    margin-left:2em;
     color: #212128;
     font-weight: bold;
-    font-size: small;
+    /* font-size: small; */
 }
 .briefProductSectionContainer img{
     height:60px;
 }
 .productshelf_Product img{
-    width: 150px;
-    max-height: 200px;
+    width:100%;
+    height: 140px;
 }
 .alertWrapper{
 }

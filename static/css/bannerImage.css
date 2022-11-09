@@ -9,62 +9,72 @@ body{
 
 .bannerSection{
     width:100%;
-    height:25vh;
-    /* background-color: red; */
+    height:80vh;
+    background-color: #FFFFFF;
+    padding:1em;
 }
 .bannerImage{
     background: #e1ecf2;
     width:100%;
-    height:35vh;
+    height:80vh;
     padding:0!important;
     margin:0!important;
     overflow-x:hidden;
     animation-name: slider;
     animation-duration: 10s;
     animation-iteration-count: infinite;
-    animation-timing-function:step-end;
+    animation-timing-function:step-end;  
 }
 
 @keyframes slider {
     0%{
         background: #e1ecf2;
-        background-image:url('/static/images/banner.png');
-        background-position:center;
-        background-repeat: no-repeat;
-        background-origin: content-box;
-        background-size: cover;
-        
-    }
-    25%{
-        background: #e1ecf2;
         background-image:url('/static/images/banner.webp');
         background-position:center;
         background-repeat: no-repeat;
-        background-origin: content-box;
-        background-size: cover;
+        background-size: 100% 100%;
+        border-radius: 60px;
+        border:1px solid #FFFFFF;
+        /* box-shadow: 0 0 4px gray; */
+    }
+    25%{
+        background: #e1ecf2;
+        background-image:url('/static/images/banner1.jpg');
+        background-position:center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        border-radius: 60px;
+        border:1px solid #FFFFFF;
+        /* box-shadow: 0 0 4px gray; */
     }
     50%{
         background: #e1ecf2;
-        background-image:url('/static/images/banner1.webp');
+        background-image:url('/static/images/banner2.webp');
         background-position:center;
         background-repeat: no-repeat;
-        background-origin: content-box;
-        background-size: cover;
+        background-size: 100% 100%;
+        border-radius: 60px;
+        border:1px solid #FFFFFF;
+        /* box-shadow: 0 0 4px gray; */
     }
     75%{
         background: #e1ecf2;
-        background-image:url('/static/images/banner.png');
+        background-image:url('/static/images/banner3.webp');
         background-position:center;
         background-repeat: no-repeat;
-        background-origin: content-box;
-        background-size: cover;
+        background-size: 100% 100%;
+        border-radius: 60px;
+        border:1px solid #FFFFFF;
+        /* box-shadow: 0 0 4px gray; */
     }
     100%{
         background: #e1ecf2;
-        background-image:url('/static/images/banner1.webp');
+        background-image:url('/static/images/banner4.webp');
         background-position:center;
         background-repeat: no-repeat;
-        background-origin: content-box;
-        background-size: cover;
+        background-size: 100% 100%;
+        border-radius: 60px;
+        border:1px solid #FFFFFF;
+        /* box-shadow: 0 0 4px gray; */
     }
 }
