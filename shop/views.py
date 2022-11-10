@@ -167,9 +167,9 @@ def wishlist(request,productid):
     obj1 = {'params':obj}
     return render(request,'shop/wishlist.html',obj1)
 
-def checkoutdeliveryaddress(request):
+def checkoutdeliveryaddress(request,productid=None):
     qry = DeliveryAddress.objects.filter(buyer = request.user).values()
-    obj = {'params':qry}
+    obj = {'params':qry,'productid':productid}
     return render(request,'shop/checkoutdeliveryaddress.html',obj)
 
 @csrf_exempt
@@ -189,16 +189,23 @@ def deliveryaddresssubmission(request):
     else:
         return JsonResponse({"status":False})
 
-def paymentsection(request):
+def paymentsection(request,productid=None):
+    print("productid ================ $$$$$$$$$$$$$$$$$$",productid)
     # Getting All Cart Data For User
-    cartQry = Cart.objects.filter(buyer=request.user)
     obj = []
     request.session['totalpaybleamount'] = 0
-    for i in cartQry:
-        if i.product_id.product_quantity !=0:
-            obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
-            request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + i.product_id.product_OfferPrice
     promocode_qry = PromoCode.objects.filter(display_promo=True).values()
+    if productid:
+        product_data = Products.objects.get(product_id=productid)
+        obj.append({'product_id':product_data.product_id,'product_pic':product_data.product_Catelog,'product_Name':product_data.product_Name,'product_Actual_Price':product_data.product_Price,'product_OfferPrice':product_data.product_OfferPrice})
+        request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + product_data.product_OfferPrice
+    else:
+        cartQry = Cart.objects.filter(buyer=request.user)
+        for i in cartQry:
+            if i.product_id.product_quantity !=0:
+                obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
+                request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + i.product_id.product_OfferPrice
+        
     obj1 = {'params':obj,'promocode_qry':promocode_qry,'shipping_Charge':10}
     return render(request,'shop/paymentsection.html',obj1)
 
@@ -213,24 +220,39 @@ def promocodevalidate(request):
         print('qry',type(qry),qry.promocode)
         return JsonResponse({'status':'Success','promocode':qry.promocode,'promocodeamt':request.session['totalpaybleamount'] - qry.fixed_amount_off})
 
-def pay(request):
+def pay(request,productid=None):
+    print("##########################",productid)
     productQuantity = 1
-    qry = Cart.objects.filter(buyer=request.user)
-    messages.success(request,"Your Order has been made")
-    messages.tags = "success"
-    product_QuantityFullfill = "These Products have out of Stock"
     flag = False
-    for item in qry:
-        if item.product_id.product_quantity > 0:
-            Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date()).save()
-            pro_qry = Products.objects.get(product_id = item.product_id.product_id)
-            pro_qry.product_quantity -=productQuantity
-            pro_qry.save()
+    if productid:
+        print("################!!!!!!!!!!!!!!!!!!!!!!!!!!##########",productid)
+        product_qry = Products.objects.get(product_id=productid)
+        if product_qry.product_quantity > 0:
+            Orderitem(buyer=request.user,product_id=product_qry,order_date=datetime.datetime.now().date()).save()
+            pro_qry = Products.objects.get(product_id = product_qry.product_id)
+            product_qry.product_quantity -=productQuantity
+            product_qry.save()
         else:
-            print("Flag Executed")
             flag = True
-            product_QuantityFullfill+= "  "+item.product_id.product_Name
-    qry.delete()    
+            product_QuantityFullfill+= "  "+product_qry.product_Name
+        
+    else:
+        qry = Cart.objects.filter(buyer=request.user)
+        messages.success(request,"Your Order has been made")
+        messages.tags = "success"
+        product_QuantityFullfill = "These Products have out of Stock"
+        for item in qry:
+            if item.product_id.product_quantity > 0:
+                Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date()).save()
+                pro_qry = Products.objects.get(product_id = item.product_id.product_id)
+                pro_qry.product_quantity -=productQuantity
+                pro_qry.save()
+            else:
+                print("Flag Executed")
+                flag = True
+                product_QuantityFullfill+= "  "+item.product_id.product_Name
+        qry.delete()  
+        
     if flag:
         return HttpResponse(f"<h1>{product_QuantityFullfill}</h1>")
     return redirect("/shop/order")

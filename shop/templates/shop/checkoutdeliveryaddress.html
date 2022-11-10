@@ -7,7 +7,7 @@
 <h1>Select a delivery address</h1>
 <section class="delivery_Section_Wrapper">
     <h4>Your addresses</h4>
-    <form action="paymentsection" method="post" id="deliverySectionForm">
+    <form action="/shop/checkout/paymentsection/{{productid}}" method="post" id="deliverySectionForm">
         {% csrf_token %}
         {%for item in params%}
         <div class="deliveryCard"><input type="radio" name="deliveryaddress" value="{{item.area}}" id="{{item.area}}"><label for="{{item.area}}"><b>{{item.fullname}}  </b>{{item.flatno}},<span> {{item.area}}</span>, <span>{{item.city}}</span>, <span>{{item.state}}</span>, <span>{{item.pincode}}</span>, <span>{{item.deliver_country}}</span>, <span>Phone number:{{item.mobileno}}</span></label></div>

@@ -1,7 +1,8 @@
-from django.urls import URLPattern, path
+from django.urls import URLPattern, path,re_path
 from . import views
 from django.contrib.staticfiles.urls import static
 from django.conf import settings
+import re
 urlpatterns = [
     path("",views.index,name="index"),
     path("login",views.Userlogin,name="Userlogin"),
@@ -13,11 +14,11 @@ urlpatterns = [
     path('category/<search>/',views.category,name="category"),
     path('cart/<productid>',views.cart,name="cart"),
     path('wishlist/<productid>',views.wishlist,name="wishlist"),
-    path('checkout/deliveryaddress',views.checkoutdeliveryaddress,name="checkoutdeliveryaddress"),
+    re_path('^checkout/deliveryaddress/(?P<productid>[a-zA-Z0-9!@#$&()\\-`_.+,/\"]*)',views.checkoutdeliveryaddress,name="checkoutdeliveryaddress"),
     path('deliveryaddresssubmission',views.deliveryaddresssubmission,name="deliveryaddresssubmission"),
-    path('checkout/paymentsection',views.paymentsection,name="paymentsection"),
+    re_path('^checkout/paymentsection/(?P<productid>[a-zA-Z0-9!@#$&()\\-`_.+,/\"]*)',views.paymentsection,name="paymentsection"),
     path('checkout/promocodevalidate',views.promocodevalidate,name="promocodevalidate"),
-    path('checkout/pay',views.pay,name="pay"),
+    re_path('^checkout/pay/(?P<productid>[a-zA-Z0-9!@#$&()\\-`_.+,/\"]*)',views.pay,name="pay"),
     path('order',views.order,name="order"),
     path('cartorderremove/<productid>',views.cartorderremove,name="cartorderremove"),
     path('productCommentSubmission',views.productCommentSubmission,name="productCommentSubmission")

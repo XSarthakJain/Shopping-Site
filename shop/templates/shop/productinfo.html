@@ -12,14 +12,22 @@
 
     {%if params.product_quantity != 0 %}
     <a href="{%url 'cart' params.product_id %}"><button class="productCatelogActionButton">Add to Cart</button></a>
-    <button class="productCatelogActionButton Checkout">Checkout</button>
+    <a href="/shop/checkout/deliveryaddress/{{params.product_id}}"><button class="productCatelogActionButton Checkout">Checkout</button></a>
     {%else%}
     <a href=""><button class="productCatelogNotifyActionButton">Notify You</button></a>
     {%endif%}
     </div>
     <div class="ProductCatelogDetails">
         <p class="ProductCatelogDetails_ProductName">{{params.product_Name}}</p>
-        <p class="quickRating_ProductCatelogDetails"><span class="quickRating_ProductCatelogDetails_RatingIcon">{{overall_productRating}}<i class="fa fa-star"></i></span>{{total_rating}} Ratings & {{noOfReview}} Reviews</p>
+        
+            {%if total_rating != 0 %}
+            <p class="quickRating_ProductCatelogDetails"><span class="quickRating_ProductCatelogDetails_RatingIcon">{{overall_productRating}}<i class="fa fa-star"></i></span> Ratings 
+            {%endif%}
+            {%if noOfReview != 0 %}
+            & {{noOfReview}} Reviews</p>
+            {%else%}
+            <p style="color:rgb(14, 90, 131);">Be the first to Review this product</p>
+            {%endif%}
         {%if params.product_quantity != 0 %}
         <h1 class="ProductCatelogDetails_Price">₹{{params.product_OfferPrice}}<strike>₹{{params.product_Price}}</strike><span class="">{{params.product_OfferPrice|percentage:params.product_Price}} Off</span></h1>
         {%else%}
@@ -118,6 +126,8 @@
     {%endfor%}
     </div>
     {%endif%}
+
+    {%if overall_productRating%}
     <div class="productCommentSectionRightSide">
         <h4 class="productCommentSectionRightSideHeading">Ratings&nbsp;<i class="fa fa-star"></i></i></h4>
         <div class="productCommentSectionRightSideInner">
@@ -134,6 +144,7 @@
             </div>
         </div>
     </div>
+    {%endif%}
 
 </section>
 
