@@ -14,7 +14,7 @@ def subtract(item1,item2):
     return  item2-item1
 
 def percentage(value,totalValue):
-    return f"{ceil((value/totalValue)*100)}%"
+    return f"{ceil(((totalValue-value)/totalValue)*100)}%"
 
 @register.filter(name='getValue')
 def getValue(item,key):

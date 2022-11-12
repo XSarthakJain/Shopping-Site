@@ -9,15 +9,11 @@
             <div class="cartCard" id="productScetion{{item.product_id}}">
                 <div class="cartCardOuter">
                     <img src="{{item.product_pic.url}}" alt="Product Image" class="cartProductImage">
-                    <h4 class="cartProductTitle">{{item.product_Name}}<br><span><h1>{{item.product_OfferPrice}}</h1><strike>₹{{item.product_Actual_Price}}</strike> Off2 offers applied</h4>
+                    <h4 class="cartProductTitle">{{item.product_Name}}<br><span><h1><strike>₹{{item.product_Actual_Price}}</strike>₹{{item.product_OfferPrice}}<span class="percent">{{item.product_OfferPrice|percentage:item.product_Actual_Price}} Off</span></h1><span class="cartProductOffers">Offers Available</span></h4>
                     <p class="cartProductDeliveryDate">Delivery by Fri Nov 4 | Free₹40</p>
                 </div>
                 <div>
-                
-                    <!-- <button class="cartController">-</button>
-                    <input type="text">
-                    <button class="cartController">+</button> -->
-                    <div>
+                    <div class="productOptions">
                         <select name={{item.product_id}} class="productQuantitySection">
                             <option value="1" {% if item.product_quantity == 1 %}selected{%endif%}>1</option>
                             <option value="2" {% if item.product_quantity == 2 %}selected{%endif%}>2</option>
@@ -25,27 +21,36 @@
                             <option value="4" {% if item.product_quantity == 4 %}selected{%endif%}>4</option>
                             <option value="5" {% if item.product_quantity == 5 %}selected{%endif%}>5</option>
                         </select>
+                        <strong>Save for later</strong>
+                        <button class="removeItem" value="{{item.product_id}}">Remove</button>
                     </div>
-                    <strong>Save for later</strong>
-                   <button class="removeItem" value="{{item.product_id}}">Remove</button>
+                    
                 </div>
             </div>
             {%endfor%}
         </div>
 
         <div class="displayAmountSection">
-            <strong>PRICE DETAILS</strong>
+            <div style="width:100%;">
+            <div>
+                <strong>PRICE DETAILS</strong>
+            </div>
+            <div class="cart_Details_SectionWrapperSection">
             <table class="cart_Details_Section">
             </table>
+            </div>
+            <p class="displayAmountSectionOfferAmountMessage">You will save ₹13,002 on this order</p>
             {%if params %}
-            <a href="/shop/checkout/deliveryaddress"><button class="displayAmountSection_CheckoutButton">Checkout</button></a>
+            <a href="/shop/checkout/deliveryaddress" class="displayAmountSection_CheckoutButtonLink"><button class="displayAmountSection_CheckoutButton">Checkout</button></a>
             {%endif%}
+        </div>
         </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         let productQuantitySection = document.querySelectorAll(".productQuantitySection");
         let cart_Details_Section = document.getElementsByClassName("cart_Details_Section")[0];
+        let displayAmountSectionOfferAmountMessage = document.getElementsByClassName("displayAmountSectionOfferAmountMessage")[0];
         productQuantitySection.forEach(el => el.addEventListener('change', el => {
             // console.log(el.target.value);
             // console.log(el.target.name);
@@ -73,7 +78,8 @@
             }
 
 
-            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.param.params.length+')</td><td>'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>'+overallActualPrice+'</td></tr><tr><td>Delivery Charges</td><td>'+e.param.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>'+(overallOfferPrice+e.param.shipping_Charge)+'</td></tr>';
+            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.param.params.length+')</td><td>₹'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>-₹'+(overallActualPrice-overallOfferPrice)+'</td></tr><tr><td>Delivery Charges</td><td>₹'+e.param.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>₹'+(overallOfferPrice+e.param.shipping_Charge)+'</td></tr>';
+            displayAmountSectionOfferAmountMessage.innerText = 'You will save ₹'+(overallActualPrice-overallOfferPrice)+' on this order';
         },
         error:function(data){
             alert("Fail");
@@ -104,7 +110,8 @@
                 overallOfferPrice += (e.param.params[i].product_OfferPrice)*(e.param.params[i].product_quantity)
                 overallActualPrice += (e.param.params[i].product_Actual_Price)*(e.param.params[i].product_quantity)   
             }
-            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.param.params.length+')</td><td>'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>'+overallActualPrice+'</td></tr><tr><td>Delivery Charges</td><td>'+e.param.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>'+(overallOfferPrice+e.param.shipping_Charge)+'</td></tr>';
+            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.param.params.length+')</td><td>₹'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>₹'+(overallActualPrice-overallOfferPrice)+'</td></tr><tr><td>Delivery Charges</td><td>₹'+e.param.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>₹'+(overallOfferPrice+e.param.shipping_Charge)+'</td></tr>';
+            displayAmountSectionOfferAmountMessage.innerText = 'You will save ₹'+(overallActualPrice-overallOfferPrice)+' on this order';
             }
         },
         error:function(data){
@@ -131,7 +138,8 @@
                 overallOfferPrice += (e.params[i].product_OfferPrice)*(e.params[i].product_quantity)
                 overallActualPrice += (e.params[i].product_Actual_Price)*(e.params[i].product_quantity)   
             }
-            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.params.length+')</td><td>'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>'+overallActualPrice+'</td></tr><tr><td>Delivery Charges</td><td>'+e.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>'+(overallOfferPrice+e.shipping_Charge)+'</td></tr>';
+            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.params.length+')</td><td>₹'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>₹'+(overallActualPrice-overallOfferPrice)+'</td></tr><tr><td>Delivery Charges</td><td>₹'+e.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>₹'+(overallOfferPrice+e.shipping_Charge)+'</td></tr>';
+            displayAmountSectionOfferAmountMessage.innerText = 'You will save ₹'+(overallActualPrice-overallOfferPrice)+' on this order';
 
             }
         },
