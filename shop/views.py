@@ -136,16 +136,20 @@ def category(request,search):
     obj = paginator.get_page(page_number)
     params = {'pro_data': obj}
     return render(request,'shop/category.html',params)
-def cart(request,productid):
-    if not Cart.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
-        qry = Products.objects.get(product_id = productid)
-        Cart(buyer=request.user,product_id=qry).save()
+def cart(request,productid=None):
+    if productid:
+        if not Cart.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
+            qry = Products.objects.get(product_id = productid)
+            Cart(buyer=request.user,product_id=qry).save()
     # Getting All Cart Data For User
     cartQry = Cart.objects.filter(buyer=request.user)
     obj = []
     for i in cartQry:
         if i.product_id.product_quantity != 0:
-            obj.append({'product_id':i.cart_product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
+            if i.product_id.product_quantity < i.quantity:
+                i.quantity = i.product_id.product_quantity
+            obj.append({'product_id':i.cart_product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':int(i.product_id.product_Price),'product_OfferPrice':int(i.product_id.product_OfferPrice),'product_quantity':i.quantity})
+            i.save()
     obj1 = {'params':obj,'shipping_Charge':10}
     return render(request,'shop/cart.html',obj1)
 
@@ -154,6 +158,17 @@ def cartorderremove(request,productid):
     messages.success(request,"Your Cart item has been deleted")
     messages.tags = "success"
     return redirect("/shop")
+
+
+def priceDetailsUpdateSection(request):
+    # Getting All Cart Data For User
+    cartQry = Cart.objects.filter(buyer=request.user)
+    obj = []
+    for i in cartQry:
+        if i.product_id.product_quantity != 0:
+            obj.append({'product_Name':i.product_id.product_Name,'product_Actual_Price':int(i.product_id.product_Price),'product_OfferPrice':int(i.product_id.product_OfferPrice),'product_quantity':i.quantity})
+    return {'params':obj,'shipping_Charge':10}
+
 
 @csrf_exempt
 def cartmodifyquantity(request):
@@ -169,7 +184,7 @@ def cartmodifyquantity(request):
             cartqry.save()
         except:
             status = 'Input Quantity is not available yet'
-    return JsonResponse({'status':status})
+    return JsonResponse({'status':status,'param':priceDetailsUpdateSection(request)})
 
 def wishlist(request,productid):
     if not WishList.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():

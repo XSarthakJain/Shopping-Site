@@ -19,11 +19,11 @@
                     <button class="cartController">+</button> -->
                     <div>
                         <select name="{{item.product_id}}" class="productQuantitySection">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                            <option value="1" {% if item.product_quantity == 1 %}selected{%endif%}>1</option>
+                            <option value="2" {% if item.product_quantity == 2 %}selected{%endif%}>2</option>
+                            <option value="3" {% if item.product_quantity == 3 %}selected{%endif%}>3</option>
+                            <option value="4" {% if item.product_quantity == 4 %}selected{%endif%}>4</option>
+                            <option value="5" {% if item.product_quantity == 5 %}selected{%endif%}>5</option>
                         </select>
                     </div>
                     <strong>Save for later</strong>
@@ -69,6 +69,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         let productQuantitySection = document.querySelectorAll(".productQuantitySection");
+        let cart_Details_Section = document.getElementsByClassName("cart_Details_Section")[0];
         productQuantitySection.forEach(el => el.addEventListener('change', el => {
             // console.log(el.target.value);
             // console.log(el.target.name);
@@ -86,6 +87,17 @@
         },
         success:function(e){
             alert(e.status);
+            console.log(e.param.params);
+            cart_Details_Section.innerText = '';
+            overallOfferPrice = 0
+            overallActualPrice = 0
+            for(i=0;i<(e.param.params).length;i++){
+                overallOfferPrice += (e.param.params[i].product_OfferPrice)*(e.param.params[i].product_quantity)
+                overallActualPrice += (e.param.params[i].product_Actual_Price)*(e.param.params[i].product_quantity)   
+            }
+
+
+            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.param.params.length+')</td><td>'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>'+overallActualPrice+'</td></tr><tr><td>Delivery Charges</td><td>'+e.param.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>'+(overallOfferPrice+e.param.shipping_Charge)+'</td></tr>';
         },
         error:function(data){
             alert("Fail");
