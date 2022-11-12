@@ -6,7 +6,7 @@
         <div class="displayItemSection">
             {%for item in params%}
             
-            <div class="cartCard">
+            <div class="cartCard" id="productScetion{{item.product_id}}">
                 <div class="cartCardOuter">
                     <img src="{{item.product_pic.url}}" alt="Product Image" class="cartProductImage">
                     <h4 class="cartProductTitle">{{item.product_Name}}<br><span><h1>{{item.product_OfferPrice}}</h1><strike>₹{{item.product_Actual_Price}}</strike> Off2 offers applied</h4>
@@ -18,7 +18,7 @@
                     <input type="text">
                     <button class="cartController">+</button> -->
                     <div>
-                        <select name="{{item.product_id}}" class="productQuantitySection">
+                        <select name={{item.product_id}} class="productQuantitySection">
                             <option value="1" {% if item.product_quantity == 1 %}selected{%endif%}>1</option>
                             <option value="2" {% if item.product_quantity == 2 %}selected{%endif%}>2</option>
                             <option value="3" {% if item.product_quantity == 3 %}selected{%endif%}>3</option>
@@ -27,7 +27,7 @@
                         </select>
                     </div>
                     <strong>Save for later</strong>
-                    <a href="{% url 'cartorderremove' item.product_id %}"><strong><button>Remove</button></strong></a>
+                   <button class="removeItem" value="{{item.product_id}}">Remove</button>
                 </div>
             </div>
             {%endfor%}
@@ -36,30 +36,6 @@
         <div class="displayAmountSection">
             <strong>PRICE DETAILS</strong>
             <table class="cart_Details_Section">
-                <tr>
-                    <td>Price ({{params | length}})</td>
-                    <td>{{params | search_itemTotal:'product_OfferPrice'}}</td>
-                </tr>
-                <tr>
-                    <td>discount</td>
-                    <td>
-                        {% with a=params|search_itemTotal:'product_OfferPrice' %}
-                        {%with b=params|search_itemTotal:'product_Actual_Price'%}
-                         {{b|subtract:a}}
-                        {%endwith%}
-                        {% endwith %}
-                                                
-                        </td>
-                        
-                </tr>
-                <tr>
-                    <td>Delivery Charges</td>
-                    <td>{{shipping_Charge}}</td>
-                </tr>
-                <tr class="cart_Details_Total_Amount_Section">
-                    <td>Total Amount</td>
-                    <td>{{params|search_itemTotal:'product_OfferPrice'|add:shipping_Charge}}</td>
-                </tr>
             </table>
             {%if params %}
             <a href="/shop/checkout/deliveryaddress"><button class="displayAmountSection_CheckoutButton">Checkout</button></a>
@@ -104,6 +80,72 @@
         }
         })
     }
+
+    let removeItem = document.querySelectorAll('.removeItem');
+    removeItem.forEach(event=>event.addEventListener('click',e =>{
+        alert(e.target.value);
+        itemPlace = e.target.value
+
+        $.ajax({
+        method:'POST',
+        url:"{%url 'cartorderremove'%}",
+        data:{ 
+            productid:e.target.value
+        },
+        success:function(e){
+            if(e.status){
+                productplace = document.getElementById("productScetion"+String(itemPlace));
+                productplace.remove();
+
+                cart_Details_Section.innerText = '';
+            overallOfferPrice = 0
+            overallActualPrice = 0
+            for(i=0;i<(e.param.params).length;i++){
+                overallOfferPrice += (e.param.params[i].product_OfferPrice)*(e.param.params[i].product_quantity)
+                overallActualPrice += (e.param.params[i].product_Actual_Price)*(e.param.params[i].product_quantity)   
+            }
+            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.param.params.length+')</td><td>'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>'+overallActualPrice+'</td></tr><tr><td>Delivery Charges</td><td>'+e.param.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>'+(overallOfferPrice+e.param.shipping_Charge)+'</td></tr>';
+            }
+        },
+        error:function(data){
+            alert("Fail");
+        }
+        })
+    
+
+    }));
+
+    function priceDetailsUpdateSection(){
+
+        $.ajax({
+        method:'POST',
+        url:"{%url 'priceDetailsUpdateSection'%}",
+        data:{ 
+        },
+        success:function(e){
+            if(e.status){
+            cart_Details_Section.innerText = '';
+            overallOfferPrice = 0
+            overallActualPrice = 0
+            for(i=0;i<(e.params).length;i++){
+                overallOfferPrice += (e.params[i].product_OfferPrice)*(e.params[i].product_quantity)
+                overallActualPrice += (e.params[i].product_Actual_Price)*(e.params[i].product_quantity)   
+            }
+            cart_Details_Section.innerHTML = '<tr><td>Price ('+e.params.length+')</td><td>'+overallOfferPrice+'</td></tr><tr><td>discount</td><td>'+overallActualPrice+'</td></tr><tr><td>Delivery Charges</td><td>'+e.shipping_Charge+'</td></tr><tr class="cart_Details_Total_Amount_Section"><td>Total Amount</td><td>'+(overallOfferPrice+e.shipping_Charge)+'</td></tr>';
+
+            }
+        },
+        error:function(data){
+            alert("Fail");
+        }
+        })
+
+
+    }
+    
+    
+
+    priceDetailsUpdateSection();
 
     </script>
 {%endblock%}

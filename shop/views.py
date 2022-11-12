@@ -153,21 +153,29 @@ def cart(request,productid=None):
     obj1 = {'params':obj,'shipping_Charge':10}
     return render(request,'shop/cart.html',obj1)
 
-def cartorderremove(request,productid):
-    Cart.objects.get(buyer=request.user,cart_product_id=productid).delete()    
-    messages.success(request,"Your Cart item has been deleted")
-    messages.tags = "success"
-    return redirect("/shop")
+@csrf_exempt
+def cartorderremove(request):
+    if request.method == 'POST':
+        productid = request.POST.get('productid')
+        Cart.objects.get(buyer=request.user,cart_product_id=productid).delete()   
+        #Call Variable -> Indicate We want value not in JSONRESPONSE Formate  
+        return JsonResponse({'status':True,'param':priceDetailsUpdateSection(request,indicate=True)})
 
-
-def priceDetailsUpdateSection(request):
+@csrf_exempt
+def priceDetailsUpdateSection(request,indicate=None):
     # Getting All Cart Data For User
+    Shipping_Charge = 10
     cartQry = Cart.objects.filter(buyer=request.user)
     obj = []
     for i in cartQry:
         if i.product_id.product_quantity != 0:
             obj.append({'product_Name':i.product_id.product_Name,'product_Actual_Price':int(i.product_id.product_Price),'product_OfferPrice':int(i.product_id.product_OfferPrice),'product_quantity':i.quantity})
-    return {'params':obj,'shipping_Charge':10}
+    print("length======================",len(obj))
+    Shipping_Charge = 0 if len(obj)==0 else Shipping_Charge
+    if indicate:
+        return {'params':obj,'shipping_Charge':Shipping_Charge,'status':True}
+    else:
+        return JsonResponse({'params':obj,'shipping_Charge':Shipping_Charge,'status':True})
 
 
 @csrf_exempt
@@ -176,7 +184,9 @@ def cartmodifyquantity(request):
         cartid = request.POST.get('cartid')
         itemQuantity = request.POST.get('itemQuantity')
         status = 'Your Cart Quantity has been added'
+        print("Cart Modify Quantity Function Trigger",cartid,itemQuantity)
         cartqry = Cart.objects.get(cart_product_id=cartid)
+        print("cartQry===========",cartqry)
         qry = ""
         try:
             qry = Products.objects.get(product_id=cartqry.product_id.product_id,product_quantity__gte=itemQuantity)
@@ -184,7 +194,7 @@ def cartmodifyquantity(request):
             cartqry.save()
         except:
             status = 'Input Quantity is not available yet'
-    return JsonResponse({'status':status,'param':priceDetailsUpdateSection(request)})
+    return JsonResponse({'status':status,'param':priceDetailsUpdateSection(request,indicate=True)})
 
 def wishlist(request,productid):
     if not WishList.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():

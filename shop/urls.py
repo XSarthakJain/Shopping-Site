@@ -14,6 +14,7 @@ urlpatterns = [
     path('category/<search>/',views.category,name="category"),
     re_path('^cart/(?P<productid>[a-zA-Z0-9!@#$&()\\-`_.+,/\"]*)',views.cart,name="cart"),
     path('cartmodifyquantity',views.cartmodifyquantity,name='cartmodifyquantity'),
+    path('priceDetailsUpdateSection',views.priceDetailsUpdateSection,name='priceDetailsUpdateSection'),
     path('wishlist/<productid>',views.wishlist,name="wishlist"),
     re_path('^checkout/deliveryaddress/(?P<productid>[a-zA-Z0-9!@#$&()\\-`_.+,/\"]*)',views.checkoutdeliveryaddress,name="checkoutdeliveryaddress"),
     path('deliveryaddresssubmission',views.deliveryaddresssubmission,name="deliveryaddresssubmission"),
@@ -21,7 +22,7 @@ urlpatterns = [
     path('checkout/promocodevalidate',views.promocodevalidate,name="promocodevalidate"),
     re_path('^checkout/pay/(?P<productid>[a-zA-Z0-9!@#$&()\\-`_.+,/\"]*)',views.pay,name="pay"),
     path('order',views.order,name="order"),
-    path('cartorderremove/<productid>',views.cartorderremove,name="cartorderremove"),
+    path('cartorderremove',views.cartorderremove,name="cartorderremove"),
     path('productCommentSubmission',views.productCommentSubmission,name="productCommentSubmission")
 
 
