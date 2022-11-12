@@ -3,6 +3,7 @@ from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.conf import settings
 import uuid
+from datetime import date
 from django.core.validators import MinValueValidator,MaxValueValidator
 # Create your models here.
 class Products(models.Model):
@@ -24,13 +25,18 @@ class Product_features(models.Model):
     product_feature_Name = models.CharField(max_length=200)
     product_feature_Value = models.CharField(max_length=200)
 class Cart(models.Model):
+    cart_product_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable = False)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
+    quantity = models.IntegerField(default=1)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 
 class WishList(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
+    quantity = models.IntegerField(default=1)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 # These Tags will display on Deshboard
 class DeshboardTags(models.Model):
@@ -85,6 +91,7 @@ class Orderitem(models.Model):
     product_id = models.ForeignKey('Products',on_delete=models.DO_NOTHING)
     delivery_status = models.BooleanField(default=False)
     order_date = models.DateField()
+    quantity = models.IntegerField(default=1)
 
 class productComment(models.Model):
     sno = models.AutoField(primary_key=True)

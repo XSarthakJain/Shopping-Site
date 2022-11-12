@@ -13,6 +13,7 @@ urlpatterns = [
     path("productinfo/<productname>/<productid>",views.productinfo,name="productinfo"),
     path('category/<search>/',views.category,name="category"),
     path('cart/<productid>',views.cart,name="cart"),
+    path('cartmodifyquantity',views.cartmodifyquantity,name='cartmodifyquantity'),
     path('wishlist/<productid>',views.wishlist,name="wishlist"),
     re_path('^checkout/deliveryaddress/(?P<productid>[a-zA-Z0-9!@#$&()\\-`_.+,/\"]*)',views.checkoutdeliveryaddress,name="checkoutdeliveryaddress"),
     path('deliveryaddresssubmission',views.deliveryaddresssubmission,name="deliveryaddresssubmission"),

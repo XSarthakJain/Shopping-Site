@@ -145,15 +145,31 @@ def cart(request,productid):
     obj = []
     for i in cartQry:
         if i.product_id.product_quantity != 0:
-            obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
+            obj.append({'product_id':i.cart_product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
     obj1 = {'params':obj,'shipping_Charge':10}
     return render(request,'shop/cart.html',obj1)
 
 def cartorderremove(request,productid):
-    Cart.objects.get(buyer=request.user,product_id=productid).delete()    
+    Cart.objects.get(buyer=request.user,cart_product_id=productid).delete()    
     messages.success(request,"Your Cart item has been deleted")
     messages.tags = "success"
     return redirect("/shop")
+
+@csrf_exempt
+def cartmodifyquantity(request):
+    if request.method == 'POST':
+        cartid = request.POST.get('cartid')
+        itemQuantity = request.POST.get('itemQuantity')
+        status = 'Your Cart Quantity has been added'
+        cartqry = Cart.objects.get(cart_product_id=cartid)
+        qry = ""
+        try:
+            qry = Products.objects.get(product_id=cartqry.product_id.product_id,product_quantity__gte=itemQuantity)
+            cartqry.quantity = itemQuantity
+            cartqry.save()
+        except:
+            status = 'Input Quantity is not available yet'
+    return JsonResponse({'status':status})
 
 def wishlist(request,productid):
     if not WishList.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
@@ -195,18 +211,22 @@ def paymentsection(request,productid=None):
     obj = []
     request.session['totalpaybleamount'] = 0
     promocode_qry = PromoCode.objects.filter(display_promo=True).values()
+    cartflag = True
     if productid:
+        cartflag = False
         product_data = Products.objects.get(product_id=productid)
         obj.append({'product_id':product_data.product_id,'product_pic':product_data.product_Catelog,'product_Name':product_data.product_Name,'product_Actual_Price':product_data.product_Price,'product_OfferPrice':product_data.product_OfferPrice})
         request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + product_data.product_OfferPrice
     else:
         cartQry = Cart.objects.filter(buyer=request.user)
         for i in cartQry:
-            if i.product_id.product_quantity !=0:
-                obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':i.product_id.product_Price,'product_OfferPrice':i.product_id.product_OfferPrice})
-                request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + i.product_id.product_OfferPrice
+            if i.product_id.product_quantity >=i.quantity:
+                print("(i.product_id.product_OfferPrice)*i.quantity",int(i.product_id.product_OfferPrice)*i.quantity)
+                print("i.quantity",i.quantity)
+                obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':(i.product_id.product_Price)*i.quantity,'product_OfferPrice':(i.product_id.product_OfferPrice)*i.quantity})
+                request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + i.product_id.product_OfferPrice*i.quantity
         
-    obj1 = {'params':obj,'promocode_qry':promocode_qry,'shipping_Charge':10}
+    obj1 = {'params':obj,'promocode_qry':promocode_qry,'shipping_Charge':10,'cartflag':cartflag}
     return render(request,'shop/paymentsection.html',obj1)
 
 @csrf_exempt
@@ -222,8 +242,10 @@ def promocodevalidate(request):
 
 def pay(request,productid=None):
     print("##########################",productid)
+    product_QuantityFullfill = ''
     productQuantity = 1
     flag = False
+    print("productid=======",productid)
     if productid:
         print("################!!!!!!!!!!!!!!!!!!!!!!!!!!##########",productid)
         product_qry = Products.objects.get(product_id=productid)
@@ -237,15 +259,17 @@ def pay(request,productid=None):
             product_QuantityFullfill+= "  "+product_qry.product_Name
         
     else:
+        print("~~~~~~~~~~~~~~~~~")
         qry = Cart.objects.filter(buyer=request.user)
         messages.success(request,"Your Order has been made")
         messages.tags = "success"
         product_QuantityFullfill = "These Products have out of Stock"
         for item in qry:
-            if item.product_id.product_quantity > 0:
-                Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date()).save()
+            if item.product_id.product_quantity >= item.quantity:
+                print('item.product_id.product_quantity >= item.quantity',item.product_id.product_quantity,item.quantity)
+                Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date(),quantity=item.quantity).save()
                 pro_qry = Products.objects.get(product_id = item.product_id.product_id)
-                pro_qry.product_quantity -=productQuantity
+                pro_qry.product_quantity -=item.quantity
                 pro_qry.save()
             else:
                 print("Flag Executed")
@@ -253,8 +277,8 @@ def pay(request,productid=None):
                 product_QuantityFullfill+= "  "+item.product_id.product_Name
         qry.delete()  
         
-    if flag:
-        return HttpResponse(f"<h1>{product_QuantityFullfill}</h1>")
+    # if flag:
+    #     return HttpResponse(f"<h1>{product_QuantityFullfill}</h1>")
     return redirect("/shop/order")
 
 def order(request):

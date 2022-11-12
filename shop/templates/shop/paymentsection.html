@@ -48,7 +48,11 @@
             </tr>
            
         </table>
+        {% if cartflag %}
+        <a href="/shop/checkout/pay"><button>Pay</button></a>
+        {%else%}
         <a href="/shop/checkout/pay/{{params.0.product_id}}"><button>Pay</button></a>
+        {%endif%}
     </div>
 </section>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

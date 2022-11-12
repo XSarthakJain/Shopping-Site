@@ -14,9 +14,18 @@
                 </div>
                 <div>
                 
-                    <button class="cartController">-</button>
+                    <!-- <button class="cartController">-</button>
                     <input type="text">
-                    <button class="cartController">+</button>
+                    <button class="cartController">+</button> -->
+                    <div>
+                        <select name="{{item.product_id}}" class="productQuantitySection">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
                     <strong>Save for later</strong>
                     <a href="{% url 'cartorderremove' item.product_id %}"><strong><button>Remove</button></strong></a>
                 </div>
@@ -57,4 +66,32 @@
             {%endif%}
         </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        let productQuantitySection = document.querySelectorAll(".productQuantitySection");
+        productQuantitySection.forEach(el => el.addEventListener('change', el => {
+            // console.log(el.target.value);
+            // console.log(el.target.name);
+            modifyQuantity(el.target.value,el.target.name);
+        }));
+
+
+        function modifyQuantity(quantity,id){
+        $.ajax({
+        method:'POST',
+        url:"{%url 'cartmodifyquantity'%}",
+        data:{ 
+            cartid:id,
+            itemQuantity: quantity
+        },
+        success:function(e){
+            alert(e.status);
+        },
+        error:function(data){
+            alert("Fail");
+        }
+        })
+    }
+
+    </script>
 {%endblock%}
