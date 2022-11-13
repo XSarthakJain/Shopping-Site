@@ -3,7 +3,6 @@
 {% load poll_extras %}
 {%load static%}
 {%block body%}
-<h1>Select a Payment methods</h1>
 <section class="paymentsectionWrapper">
     <div class="paymentsection">
         <form id="promocode_form">
@@ -21,7 +20,14 @@
         </div>
         {%endif%}
     </div>
-    <div class="orderedsection">
+    <div class="">
+        <div class="displayAmountSection">
+            <div style="width:100%;">
+            <div>
+                <strong>PRICE DETAILS</strong>
+            </div>
+            <div class="cart_Details_SectionWrapperSection">
+            <table class="cart_Details_Section">
         <table class="cart_Details_Section">
             <tr>
                 <td>Price {{params | length}}</td>
@@ -49,17 +55,23 @@
            
         </table>
         {% if cartflag %}
-        <a href="/shop/checkout/pay"><button>Pay</button></a>
+        <a href="/shop/checkout/pay"><button class="displayAmountSection_CheckoutButton">Payment</button></a>
         {%else%}
-        <a href="/shop/checkout/pay/{{params.0.product_id}}"><button>Pay</button></a>
+        <a href="/shop/checkout/pay/{{params.0.product_id}}" ><button class="displayAmountSection_CheckoutButton">Payment</button></a>
         {%endif%}
     </div>
+        <p class="displayAmountSectionOfferAmountMessage"></p>
+    
+    </div>
+</div>
+</div>
 </section>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     let promocode_form = document.getElementById("promocode_form");
     let productprice = document.getElementById("productprice");
     let Finalamount = document.getElementById("Finalamount");
+    let displayAmountSectionOfferAmountMessage = document.getElementsByClassName("displayAmountSectionOfferAmountMessage")[0];
     promocode_form.addEventListener("submit",(e)=>{
         e.preventDefault();
 
@@ -90,8 +102,9 @@
         },
         success:function(e){
             alert("Sucessfully Done");
-            productprice.innerText = e.promocodeamt + " (Price - PromoCode)";
+            productprice.innerText = e.promocodeamt;
             Finalamount.innerText = e.promocodeamt;
+            displayAmountSectionOfferAmountMessage.innerText = promocode+' Promocode applied 🎉';            
         },
         error:function(data){
             alert("Fail");

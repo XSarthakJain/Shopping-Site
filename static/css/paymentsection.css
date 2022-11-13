@@ -2,19 +2,41 @@
     display:flex;
     background-color: #E9ECEF;
     width:100%;
-    min-height: 80vh;
+    min-height: 90vh;
     max-height: 100%;
     padding:2em;
 }
 
 .paymentsectionWrapper .paymentsection{
-    width:70%;
+    width:68%;
     background-color: #FFFFFF;
-    box-shadow: 0 0 4px gray;
+    /* box-shadow: 0 0 4px gray; */
     padding:2em;
+    border-radius: 6px;
+
 }
+.paymentsectionWrapper .paymentsection #promocode_form{
+    border:1px solid #E9ECEF;
+    display: inline-block;
+    width:60%;
+}
+.paymentsectionWrapper .paymentsection #promocode_form input[type='text'], .paymentsectionWrapper .paymentsection #promocode_form input[type='submit']{
+    border:none;
+    outline: none;
+}
+.paymentsectionWrapper .paymentsection #promocode_form input[type='text']{
+    width:80%;
+}
+
+.paymentsectionWrapper .paymentsection #promocode_form input[type='submit']{
+    float:right;
+    cursor: pointer;
+}
+
+
+
 .paymentsectionWrapper .orderedsection{
-    width:25%;
+    /* width:25%; */
     margin-left:2em;
     background-color: #FFFFFF;
     box-shadow: 0 0 4px gray;
@@ -29,18 +51,39 @@
 .paymentsectionWrapper .paymentsection .viewallOffers{
     width:50%;
     margin-top: 1em;
-    max-height:250px;
-    box-shadow: 0 0 4px gray;
+    height:250px;
+    box-shadow: 0 0 2px gray;
+    /* border:2px solid #E9ECEF; */
+    overflow-y: auto;
     overflow-y: auto;
 }
 .paymentsectionWrapper .paymentsection .viewallOffers h1:first-child{
     width:100%;
     padding:12px;
     background-color: #E9ECEF;
+    font-size: larger;
+    color: #212121;
+    text-transform: uppercase;
 }
+
+.viewallOffersListDesc mark{
+    cursor: pointer;
+    border:1px dotted gray;
+}
+
 .paymentsectionWrapper .paymentsection .viewallOffers ul{
     padding: 2em;
+    list-style-type: none;
 }
 .paymentsectionWrapper .paymentsection .viewallOffers ul li{
     padding-bottom: 8px;
+}
+
+.paymentsectionWrapper .paymentsection .viewallOffers ul li::before{
+    content: "\f02b";
+    color: #388E3C;
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left: -1.3em; /* same as padding-left set on li */
+    width: 1.3em; /* same as padding-left set on li */
 }
