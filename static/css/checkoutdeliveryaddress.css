@@ -1,10 +1,93 @@
+.delivery_Section_Outer{
+    width:100%;
+    min-height:90vh;
+    max-height: 100%;
+    background-color: #E9ECEF;
+    padding:4em;
+}
 .delivery_Section_Wrapper{
     background-color: #FFFFFF;
-    box-shadow: 0 0 2px gray;
-    width:720px;
-    margin:2em auto;
-    padding:2em;
+    /* box-shadow: 0 0 4px gray; */
+    /* width:720px;
+    margin:2em auto;*/
+    min-height: calc(90vh - 10em);
+    padding:2em; 
+    border-radius: 4px;
 }
+
+.delivery_Section_Wrapper h1:first-child{
+    color: #212121;
+    font-size: x-large;
+}
+
+.delivery_Section_Wrapper #deliverySectionForm{
+    padding-top:2em;
+}
+
+.delivery_Section_Wrapper #deliverySectionForm .AddressHeadline{
+    color:#212121;
+    font-size: larger;
+}
+
+.DeliverySectioncardWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.DeliverySectioncardWrapper .DeliverySectionCard{
+    width:250px;
+    height:200px;
+    border:1px solid gray;
+    padding:1em;
+    cursor: pointer;
+    margin:1em;
+    overflow-y:auto;
+    padding-bottom: 1em;
+}
+
+.addNewDeliveryAddress{
+    text-align: center;
+    border:none;
+    border:1px dotted gray!important;
+}
+.addNewDeliveryAddress img{
+    width:150px;
+    max-height:150px;
+}
+
+.addNewDeliveryAddress p{
+    text-align: center;
+    color: rgb(63, 60, 60);
+    font-weight: bold;
+}
+.DeliverySectionCard label{
+    line-height:1.2em;
+    color:#212121;
+}
+
+.checkoutDeliveryAddressSubmission{
+    width:100%;
+    padding:1em;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 4px gray;
+    position: fixed;
+    bottom: 0;
+    left:0;
+    right:0;
+}
+
+.checkoutDeliveryAddressSubmission input[type='submit']{
+    float:right;
+    margin-right:2em;
+    padding:1em 2em;
+    background-color: tomato;
+    color: #FFFFFF;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+/* 
 .delivery_Section_Wrapper h4:first-child{
     color: tomato;
     font-size: large;
@@ -15,7 +98,7 @@
     border-radius: 4px;
     padding:1em;
     margin-top:1em;
-}
+} */
 .deliverySection_Sidebar{
     display: none;
     padding:1em;

@@ -4,21 +4,41 @@
 
 
 {%block body%}
-<h1>Select a delivery address</h1>
+<section class="delivery_Section_Outer">
 <section class="delivery_Section_Wrapper">
-    <h4>Your addresses</h4>
+    <h1 >Select Delivery Address</h1>
+    
     <form action="/shop/checkout/paymentsection/{{productid}}" method="post" id="deliverySectionForm">
         {% csrf_token %}
-        {%for item in params%}
-        <div class="deliveryCard"><input type="radio" name="deliveryaddress" value="{{item.area}}" id="{{item.area}}"><label for="{{item.area}}"><b>{{item.fullname}}  </b>{{item.flatno}},<span> {{item.area}}</span>, <span>{{item.city}}</span>, <span>{{item.state}}</span>, <span>{{item.pincode}}</span>, <span>{{item.deliver_country}}</span>, <span>Phone number:{{item.mobileno}}</span></label></div>
+        <h4 class="AddressHeadline">Select or add an address</h4>
+        <div class="DeliverySectioncardWrapper">
+            <div class="DeliverySectionCard addNewDeliveryAddress" id="add_NewAddress">
+                <img src="{%static 'images/mailbox.svg'%}" alt="mailbox">
+                <p>Add new address</p>
+            </div>
+
+            {%for item in params%}
+            <div class="DeliverySectionCard" for="{{item.address_id}}">
+                <strong>Address {{ forloop.counter }}</strong><br><br>
+                <b>{{item.fullname}}</b><br>
+                <input type="radio" required name="deliveryaddress" value="{{item.address_id}}" id="{{item.address_id}}"><label for="{{item.address_id}}">&nbsp;{{item.flatno}},<span> {{item.area}}</span>, <span>{{item.city}}</span>, <span>{{item.state}}</span>, <span>{{item.pincode}}</span>, <span>{{item.deliver_country}}</span>, <span>Phone number:{{item.mobileno}}</span></label>
+            </div>
+            {%endfor%}
+
+              <!-- {%for item in params%}
+        <div class="deliveryCard"><input type="radio" required name="deliveryaddress" value="{{item.area}}" id="{{item.area}}"><label for="{{item.area}}"><b>{{item.fullname}}  </b>{{item.flatno}},<span> {{item.area}}</span>, <span>{{item.city}}</span>, <span>{{item.state}}</span>, <span>{{item.pincode}}</span>, <span>{{item.deliver_country}}</span>, <span>Phone number:{{item.mobileno}}</span></label></div>
         {%endfor%}
 
         <a href="#" id="add_NewAddress">add a new address</a>
         <br>
-        <input type="submit" value="Use this address">
+        <div class='checkoutDeliveryAddressSubmission'>
+        <input type="submit" value="Use this address"> -->
+        <div class='checkoutDeliveryAddressSubmission'>
+            <input type="submit" value="Use this address">
+        </div>
     </form>
 </section>
-
+</section>
 <!-- Side Bar -->
 <section class="deliverySection_Sidebar">
     <button class="deliverySection_SidebarClosebtn">X</button>
@@ -65,7 +85,7 @@
     })
     
     let deliveryAddressForm = document.getElementById("deliveryAddressForm");
-    let deliverySectionForm = document.getElementById("deliverySectionForm");
+    let DeliverySectioncardWrapper = document.getElementsByClassName("DeliverySectioncardWrapper")[0];
     deliveryAddressForm.addEventListener("submit",(e)=>{
         e.preventDefault();
         // 
@@ -85,7 +105,7 @@
         },
         success:function(e){
             alert("Sucessfully Done");
-            deliverySectionForm.innerHTML += '<div class="deliveryCard"><input type="radio" name="deliveryaddress" value="'+e.area+'" id="'+e.area+'"><label for="'+e.area+'"><b>'+e.fullname+'  </b>'+e.flatno+',<span> '+e.area+'</span>, <span>'+e.city+'</span>, <span>'+e.state+'</span>, <span>'+e.pincode+'</span>, <span>'+e.country+'</span>, <span>Phone number:'+e.mobileno+'</span></label></div>';
+            DeliverySectioncardWrapper.innerHTML+= '<div class="DeliverySectionCard"><strong>Newly added address </strong><br><br><b>{{item.fullname}}</b><br><input type="radio" required name="deliveryaddress" value="'+e.area+'" id="'+e.area+'"><label for="'+e.area+'"><b>'+e.fullname+'  </b>'+e.flatno+',<span> '+e.area+'</span>, <span>'+e.city+'</span>, <span>'+e.state+'</span>, <span>'+e.pincode+'</span>, <span>'+e.country+'</span>, <span>Phone number:'+e.mobileno+'</span></label></div>';
         },
         error:function(data){
             alert("Fail");

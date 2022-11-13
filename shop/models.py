@@ -57,6 +57,7 @@ class Deshboard(models.Model):
         return self.deshboard_Product_Name
 
 class DeliveryAddress(models.Model):
+    address_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable = False)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING)
     deliver_country = models.CharField(max_length=100)
     fullname = models.CharField(max_length=20)
@@ -92,6 +93,7 @@ class Orderitem(models.Model):
     delivery_status = models.BooleanField(default=False)
     order_date = models.DateField()
     quantity = models.IntegerField(default=1)
+    deliveryAddress = models.ForeignKey('DeliveryAddress',on_delete=models.DO_NOTHING) 
 
 class productComment(models.Model):
     sno = models.AutoField(primary_key=True)

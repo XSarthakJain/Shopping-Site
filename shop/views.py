@@ -231,7 +231,10 @@ def deliveryaddresssubmission(request):
         return JsonResponse({"status":False})
 
 def paymentsection(request,productid=None):
+    request.session['deliveryAddress'] = ''
     print("productid ================ $$$$$$$$$$$$$$$$$$",productid)
+    request.session['deliveryAddress'] = request.POST.get('deliveryaddress')
+    print("Delivery Address============",request.session['deliveryAddress'])
     # Getting All Cart Data For User
     obj = []
     request.session['totalpaybleamount'] = 0
@@ -275,7 +278,8 @@ def pay(request,productid=None):
         print("################!!!!!!!!!!!!!!!!!!!!!!!!!!##########",productid)
         product_qry = Products.objects.get(product_id=productid)
         if product_qry.product_quantity > 0:
-            Orderitem(buyer=request.user,product_id=product_qry,order_date=datetime.datetime.now().date()).save()
+            print("request.session['deliveryAddress']",request.session['deliveryAddress'])
+            Orderitem(buyer=request.user,product_id=product_qry,order_date=datetime.datetime.now().date(),deliveryAddress= (DeliveryAddress.objects.get(address_id=request.session['deliveryAddress']))).save()
             pro_qry = Products.objects.get(product_id = product_qry.product_id)
             product_qry.product_quantity -=productQuantity
             product_qry.save()
@@ -292,7 +296,7 @@ def pay(request,productid=None):
         for item in qry:
             if item.product_id.product_quantity >= item.quantity:
                 print('item.product_id.product_quantity >= item.quantity',item.product_id.product_quantity,item.quantity)
-                Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date(),quantity=item.quantity).save()
+                Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date(),quantity=item.quantity,deliveryAddress= (DeliveryAddress.objects.get(address_id=request.session['deliveryAddress']))).save()
                 pro_qry = Products.objects.get(product_id = item.product_id.product_id)
                 pro_qry.product_quantity -=item.quantity
                 pro_qry.save()
