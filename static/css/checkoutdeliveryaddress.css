@@ -44,12 +44,14 @@
     margin:1em;
     overflow-y:auto;
     padding-bottom: 1em;
+    background-color: #E9ECEF;
 }
 
 .addNewDeliveryAddress{
     text-align: center;
     border:none;
     border:1px dotted gray!important;
+    background-color: #FFFFFF!important;
 }
 .addNewDeliveryAddress img{
     width:150px;

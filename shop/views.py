@@ -225,8 +225,9 @@ def deliveryaddresssubmission(request):
         landmark =  request.POST.get('landmark')
         city = request.POST.get('city')
         state  = request.POST.get('state')
-        DeliveryAddress(buyer=request.user,deliver_country=country,fullname=fullname,mobileno=mobileno,pincode=pincode,flatno=flatno,area=area,landmark=landmark,city=city,state=state).save()
-        return JsonResponse({'status': True,'country':country,'fullname':fullname,'mobileno':mobileno,'pincode':pincode,'flatno':flatno,'area':area,'landmark':landmark,'city':city,'state':state})
+        obj = DeliveryAddress(buyer=request.user,deliver_country=country,fullname=fullname,mobileno=mobileno,pincode=pincode,flatno=flatno,area=area,landmark=landmark,city=city,state=state)
+        obj.save()
+        return JsonResponse({'status': True,'country':country,'fullname':fullname,'mobileno':mobileno,'pincode':pincode,'flatno':flatno,'area':area,'landmark':landmark,'city':city,'state':state,'address_id':obj.address_id})
     else:
         return JsonResponse({"status":False})
 
@@ -315,7 +316,7 @@ def order(request):
     qry = Orderitem.objects.filter(**query_arguments)
     obj = []
     for i in qry:
-        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'order_date':i.order_date,'delivery_status':i.delivery_status})
+        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'order_date':i.order_date,'delivery_status':i.delivery_status,'quantity':i.quantity})
     obj = {'params':obj}
     return render(request,'shop/order.html',obj)
 
@@ -332,3 +333,5 @@ def productCommentSubmission(request):
             productComment(comment=comment,user=request.user,product_item=Products.objects.get(product_id=productid)).save()
         
     return redirect("/shop")
+
+

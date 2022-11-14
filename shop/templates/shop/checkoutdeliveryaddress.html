@@ -105,7 +105,7 @@
         },
         success:function(e){
             alert("Sucessfully Done");
-            DeliverySectioncardWrapper.innerHTML+= '<div class="DeliverySectionCard"><strong>Newly added address </strong><br><br><b>{{item.fullname}}</b><br><input type="radio" required name="deliveryaddress" value="'+e.area+'" id="'+e.area+'"><label for="'+e.area+'"><b>'+e.fullname+'  </b>'+e.flatno+',<span> '+e.area+'</span>, <span>'+e.city+'</span>, <span>'+e.state+'</span>, <span>'+e.pincode+'</span>, <span>'+e.country+'</span>, <span>Phone number:'+e.mobileno+'</span></label></div>';
+            DeliverySectioncardWrapper.innerHTML+= '<div class="DeliverySectionCard"><strong>Newly added address </strong><br><br><b>'+e.fullname+'</b><br><input type="radio" required name="deliveryaddress" value="'+e.address_id+'" id="'+e.address_id+'"><label for="'+e.address_id+'">'+e.flatno+',<span> '+e.area+'</span>, <span>'+e.city+'</span>, <span>'+e.state+'</span>, <span>'+e.pincode+'</span>, <span>'+e.country+'</span>, <span>Phone number:'+e.mobileno+'</span></label></div>';
         },
         error:function(data){
             alert("Fail");

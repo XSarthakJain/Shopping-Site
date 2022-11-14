@@ -28,6 +28,7 @@
     padding-left:1em;
     padding-right: 1em;
     padding-bottom: 2em;
+    overflow: hidden;
 }
 
 .categoryOuterBlock h1:first-child{
@@ -50,9 +51,19 @@ strong.productinfoProductName{
     color: black;
     text-decoration:none;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .productinfoProductDesc{
+    /* white-space: nowrap; */
+    overflow: hidden;
     color: gray;
     font-size: small;
     overflow:hidden;
