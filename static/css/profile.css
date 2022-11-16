@@ -10,7 +10,7 @@
 }
 
 .profileWrapper .profileInner{
-    width:60%;
+    width:30%;
     background-color: #FFFFFF;
     min-height: calc(100vh - 12em);
     max-height:auto;
