@@ -5,7 +5,19 @@ from django.conf import settings
 import uuid
 from datetime import date
 from django.core.validators import MinValueValidator,MaxValueValidator
-# Create your models here.
+# For Extending USer Class
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+from .manager import UserManager
+# # Create your models here.
+
+class User(AbstractUser):
+    phoneno = models.IntegerField(default=0)
+    objects = UserManager()
+
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
+
 class Products(models.Model):
     product_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable = False)
     product_Catelog = models.ImageField(upload_to='media',default='media/profile.jpg')

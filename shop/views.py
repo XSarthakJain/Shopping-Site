@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render,redirect
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
 from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode,Orderitem,productComment,Product_features
@@ -11,6 +11,8 @@ from django.contrib import messages
 from shop.templatetags import poll_extras
 import datetime
 from django.core.paginator import Paginator
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 def index(request):
     qry = Deshboard.objects.all().order_by('deshboard__rank')
@@ -43,7 +45,7 @@ def register_signup(request):
     # Check Username Alredy Present Or Not
     if not User.objects.filter(username=email).exists():
         print("=============",email,userpass,fname,lname,mobile)
-        user = User.objects.create_user(email, email, userpass)
+        user = User.objects.create(email=email, password=userpass)
         user.first_name = fname
         user.last_name = lname
         user.save()
