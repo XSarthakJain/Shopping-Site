@@ -1,0 +1,22 @@
+{%extends 'shop/baseheader.html'%}
+{%block title%}Profile Page{%endblock%}
+{%block body%}
+    <section class='profileWrapper'>
+        <div class="profileInner">
+            <div class="profilepicWrapper">
+                <h1 class="profilePic">{{params.first_name|slice:"1"}}{{params.last_name|slice:"1"}}</h1>
+            </div>
+            <h1 class="profileTagLine">{{params.first_name}}{{params.last_name}}</h1>
+            <form class="profileValues" action="{%url 'profileupdate'%}" method="post">
+                {%csrf_token%}
+                <input type="text" placeholder="First name" name="firstname" value="{{params.first_name}}">
+                <input type="text" placeholder="Last name" name='lastname' value="{{params.last_name}}">
+                <input type="email" placeholder="Email" name="email" value="{{params.email}}">
+                <input type="number" placeholder="Phone number" required name="phoneno" value="{{params.phoneno}}">
+                <input type="submit" value="Submit">
+                <br>
+                <a href="{%url 'reset_password'%}">Set Password</a><br>
+            </form>
+        </div>
+    </section>
+{%endblock%}

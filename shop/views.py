@@ -337,3 +337,22 @@ def productCommentSubmission(request):
     return redirect("/shop")
 
 
+def profile(request):
+    obj = User.objects.get(username=request.user)
+    print(obj.first_name,obj.last_name,obj.phoneno,obj.email)
+    return render(request,'shop/profile.html',{'params':obj})
+
+def profileupdate(request):
+    if request.method == 'POST':
+        firstname = request.POST.get('firstname','')
+        lastname = request.POST.get('lastname','')
+        email = request.POST.get('email','')
+        phoneno = request.POST.get('phoneno')
+
+        query = User.objects.get(username=request.user)
+        query.first_name=firstname
+        query.last_name=lastname
+        query.email=email
+        query.phoneno=phoneno
+        query.save()
+        return redirect('/shop')

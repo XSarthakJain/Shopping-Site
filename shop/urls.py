@@ -28,6 +28,9 @@ urlpatterns = [
     path('reset_password/',auth_views.PasswordResetView.as_view(template_name='shop/resetpassword.html'),name='reset_password'),
     path('reset_password_sent/',auth_views.PasswordResetDoneView.as_view(template_name='shop/resetpasswordsent.html'),name='password_reset_done'),
     path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='shop/passwordresetform.html'),name='password_reset_confirm'),
-    path('reset_password_complete/',auth_views.PasswordResetCompleteView.as_view(template_name='shop/resetpassworddone.html'),name='password_reset_complete')
+    path('reset_password_complete/',auth_views.PasswordResetCompleteView.as_view(template_name='shop/resetpassworddone.html'),name='password_reset_complete'),
+    path('profile',views.profile,name='profile'),
+    path('profileupdate',views.profileupdate,name='profileupdate')
+
 
 ]

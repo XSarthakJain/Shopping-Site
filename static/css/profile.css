@@ -1,0 +1,79 @@
+.profileWrapper{
+    width:100%;
+    min-height:calc(100vh - 6em);
+    background-color: #E9ECEF;
+    padding:4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height:auto;
+}
+
+.profileWrapper .profileInner{
+    width:60%;
+    background-color: #FFFFFF;
+    min-height: calc(100vh - 12em);
+    max-height:auto;
+    border-radius: 6px;
+    /* padding: 2em; */
+}
+.profileTagLine{
+    color: rgb(71, 64, 64);
+    font-size: x-large;
+    margin:1em;
+    margin-left:2em;
+    margin-bottom: 0;
+}
+
+.profileWrapper .profileInner .profilepicWrapper{
+    width:100%;
+    padding:2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+    /* border:1px solid #FFFFFF; */
+    border-radius: 6px 6px 0 0;
+}
+.profileWrapper .profileInner .profilepicWrapper .profilePic{
+    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+    color: #FFFFFF;
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    line-height: 50px;
+    text-align: center;
+    font-size: large;
+}
+.profileWrapper .profileInner .profileValues{
+    /* display: flex;
+    flex-wrap: wrap; */
+    padding-left: 2em;
+    width:100%;
+    padding-right:4em;
+}
+.profileWrapper .profileInner .profileValues input{
+    width:100%;
+    padding:12px;
+    margin:1em;
+    outline: none;
+    border:1px solid #E9ECEF;
+    border-radius: 4px;
+    /* border:none; */
+}
+
+.profileWrapper .profileInner .profileValues input[type='submit']{
+    padding:8px 12px;
+    background-color: orange;
+    color:#FFFFFF;
+    font-size: medium;
+    border-radius: 4px;
+    border:none;
+    outline: none;
+    width:auto;
+    margin-bottom: 0;
+}
+.profileWrapper .profileInner .profileValues a{
+    margin-left: 1em;
+    margin-bottom: 1em;
+}
