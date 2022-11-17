@@ -119,6 +119,24 @@ class productComment(models.Model):
     # def __str__(self):
     #     return self.comment[0:15] + "..." + "by"+ settings.AUTH_USER_MODEL
 
+class sellingProRegistery(models.Model):
+
+    ordertypelist = (
+        ('Single','Single'),
+        ('Multiple','Multiple')
+    )
+    sellingProRegisteryID = models.UUIDField(primary_key = True,default = uuid.uuid4,editable = False)
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    orderType = models.CharField(max_length=10,choices=ordertypelist)
+    date = models.DateTimeField(auto_now_add=True,blank=True)
+    coupon = models.TextField(null=True)
+    tax = models.TextField(null=True)
+    items = models.TextField(null=True)
+    shippingCharge = models.IntegerField()
+    amount = models.FloatField()
+    paidAmount = models.IntegerField()
+    status = models.CharField(max_length=10,choices=(('paid','paid'),('return','return')))
+
 
 
 

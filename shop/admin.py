@@ -13,6 +13,7 @@ from .models import PromoCode
 from .models import Orderitem
 from .models import productComment
 from .models import Product_features
+from .models import sellingProRegistery
 # Register your models here.
 admin.site.register(Products)
 admin.site.register(Cart)
@@ -24,3 +25,4 @@ admin.site.register(PromoCode)
 admin.site.register(Orderitem)
 admin.site.register(productComment)
 admin.site.register(Product_features)
+admin.site.register(sellingProRegistery)
