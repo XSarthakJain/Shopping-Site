@@ -104,8 +104,9 @@
             state : deliveryAddressForm.elements[8].value,  
         },
         success:function(e){
-            alert("Sucessfully Done");
+            alert("New address has been Sucessfully added");
             DeliverySectioncardWrapper.innerHTML+= '<div class="DeliverySectionCard"><strong>Newly added address </strong><br><br><b>'+e.fullname+'</b><br><input type="radio" required name="deliveryaddress" value="'+e.address_id+'" id="'+e.address_id+'"><label for="'+e.address_id+'">'+e.flatno+',<span> '+e.area+'</span>, <span>'+e.city+'</span>, <span>'+e.state+'</span>, <span>'+e.pincode+'</span>, <span>'+e.country+'</span>, <span>Phone number:'+e.mobileno+'</span></label></div>';
+            deliverySection_Sidebar.classList.toggle('deliverySection_SidebarAppear');
         },
         error:function(data){
             alert("Fail");

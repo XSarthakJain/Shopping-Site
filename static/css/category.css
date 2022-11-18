@@ -45,6 +45,7 @@
     border:none;
     text-transform: uppercase;
     font-size: x-small;
+    cursor: pointer;
 }
 
 strong.productinfoProductName{

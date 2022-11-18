@@ -9,6 +9,8 @@ from django.core.validators import MinValueValidator,MaxValueValidator
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from .manager import UserManager
+from django_mysql.models import ListCharField
+from django.contrib.postgres.fields import JSONField
 # # Create your models here.
 
 class User(AbstractUser):
@@ -129,12 +131,14 @@ class sellingProRegistery(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     orderType = models.CharField(max_length=10,choices=ordertypelist)
     date = models.DateTimeField(auto_now_add=True,blank=True)
-    coupon = models.TextField(null=True)
-    tax = models.TextField(null=True)
-    items = models.TextField(null=True)
-    shippingCharge = models.IntegerField()
-    amount = models.FloatField()
-    paidAmount = models.IntegerField()
+    coupon = ListCharField(
+        base_field=models.CharField(max_length=100),
+        size=25,
+        max_length=(25 * 101))
+    items = JSONField()
+    shippingCharge = models.IntegerField(default=0)
+    amount = models.FloatField(default=0)
+    paidAmount = models.IntegerField(default=0)
     status = models.CharField(max_length=10,choices=(('paid','paid'),('return','return')))
 
 

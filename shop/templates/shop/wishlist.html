@@ -2,17 +2,28 @@
 {% block body%}
 
 <section class="wishlist_Wrapper">
-    <h1>Your WishList</h1>
-    {%for item in params%}
-    <div class="wishlist_card_outer">
-        <img src="{{item.product_pic.url}}" alt="wishlist_item" class="wishlist_card_img">
-        <div>
-            <a href="{%url 'productinfo' item.product_Name item.product_id %}"><p class="wishlist_card_title">{{item.product_Name}}</p></a>
-            {%if item.product_Quantity != 0 %}
-            <a href="{%url 'cart' item.product_id %}"><button>Add to Cart</button></a>
-            {%endif%}
-        </div>
-    </div>
-    {%endfor%}
+    <h1 class="wishlistHeading"><i class="fa fa-heart"></i><br>Your Wishlist</h1>
+    <table class="wishlishcontant_table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Product name</th>
+            <th>Unit price</th>
+            <th>Stock status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {%for item in params%}
+        <tr>
+            <td style="width:auto;"><i class="fa fa-trash"></i><img src="{{item.product_pic.url}}" alt="wishlist_item"></td>
+            <td>{{item.product_Name}}</td>
+            <td>{{item.product_price}}</td>
+            <td>{% if item.product_Quantity > 0 %}In Stock{%else%}Sold out{%endif%}</td>
+            <td><a href="{%url 'cart' item.product_id %}"><button class="wishlist_addToCart">Add to cart</button></a></td>
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
 </section>
 {%endblock%}

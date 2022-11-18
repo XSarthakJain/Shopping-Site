@@ -1,36 +1,67 @@
 .wishlist_Wrapper{
-    max-width:720px;
-    min-height: 80vh;
-    max-height: 100%;
+    max-width:100%;
+    height:calc(100vh - 4em);
     background-color: #FFFFFF;
-    margin: 2em auto;
-    box-shadow: 0 0 4px 1px gray;
-    padding:1em;
-}
-.wishlist_card_outer{
-    display:flex;
+    padding:2em;
+    /* display:flex;
+    justify-content: center;
     align-items: center;
-    padding-bottom: 1em;
-    border-bottom: 1px solid #E9ECEF;
+    flex-wrap: wrap; */
+    border-top:1px solid #E9ECEF;
 }
-
-.wishlist_card_outer .wishlist_card_img{
-    width:100px;
-    max-height: 100px;
+.wishlist_Wrapper .wishlistHeading{
+    color: #404040;
+    font-size: xxx-large;
+    text-align: center;
 }
-
-.wishlist_card_outer div .wishlist_card_title{
-    margin-left: 2em;
-    font-size: large;
-    font-family:'Times New Roman', Times, serif;
-    text-overflow: ellipsis;
+.wishlist_Wrapper i{
+    background-color: #FFFFFF;
 }
-.wishlist_card_outer div button{
-    margin-left: 2em;
-    padding:8px 12px;
+.wishlishcontant_table{
+    border-collapse: collapse;
+    margin:25px 0;
+    font-size: 0.9em;
+    width:100%;
+    border-radius: 5px 5px 0 0;
+    overflow:hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+.wishlishcontant_table thead tr{
+   background-color: gray;
+   text-align: left;
+   color:#FFFFFF;
+   font-weight: bold;
+}
+.wishlishcontant_table th, .wishlishcontant_table td{
+    padding: 12px 15px;
+}
+.wishlishcontant_table tbody tr{
+    border-bottom: 1px solid #dddddd;
+    /* font-size: large; */
+}
+.wishlishcontant_table tbody tr:nth-of-type(even){
+    background-color: #F3F3F3;
+}
+.wishlishcontant_table tbody tr:last-of-type{
+    border-bottom: 2px solid gray;
+}
+.wishlishcontant_table tbody tr td img{
+    width:50px;
+    height:50px;
+    object-fit: contain;
+}
+.wishlishcontant_table tbody tr td i:first-child{
+    vertical-align:1.2em;
+    padding-right:8px;
+    cursor: pointer;
+    color:gray;
+}
+.wishlist_addToCart{
+    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+    color: #FFFFFF;
+    padding:6px 12px;
     border-radius: 25px;
-    background-color: yellow;
-    color:#000000;
     border:none;
+    outline:none;
     cursor: pointer;
 }

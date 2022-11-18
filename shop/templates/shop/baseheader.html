@@ -38,20 +38,19 @@
             <!-- <input type="button" value="Login"> -->
         </form>
             <ul class="headerOptions">
-                <li>Become a Seller</li>
                 {% if user.is_authenticated %}
-                    <p style="margin-left:2em;">{{request.user}}</p>
+                    <b><p style="margin-left:2em;color: #212121;">{{request.user}}</p></b>
                     <form action="/shop/logout" method="POST">
                         {% csrf_token %}
-                        <input type="submit" value="Logout" class="headerlogoutbtn">
+                        <input type="submit" value="Logout" class="headerlogoutbtn" style="font-weight:bold;font-size:small;">
                     </form>
                 {% else %}
-                <li class="headerOptions"><a href="login" class="headerOptions">Login</a></li>
-                <li class="headerOptions"><a href="signup" class="headerOptions">SignUp</a> </li>
+                <li class="headerOptions"><a href="/shop/login" class="headerOptions">Login</a></li>
+                <li class="headerOptions"><a href="/shop/signup" class="headerOptions">SignUp</a> </li>
                 {% endif %}
-                <li class="headerOptions"><a href="" class="headerOptions">Profile</a></li>
-                <li class="headerOptions"><a href="" class="headerOptions">Wishlist</a></li>
-                <li class="headerOptions"><a href="" class="headerOptions">Cart</a></li>
+                <li class="headerOptions"><a href="/shop/profile" class="headerOptions">Profile</a></li>
+                <li class="headerOptions"><a href="/shop/wishlist" class="headerOptions">Wishlist</a></li>
+                <li class="headerOptions"><a href="/shop/cart" class="headerOptions">Cart</a></li>
 
             </ul>
         

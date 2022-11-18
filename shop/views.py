@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 # from django.contrib.auth.models import User
 from urllib3 import HTTPResponse
 from django.contrib.auth import logout, authenticate,login
-from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode,Orderitem,productComment,Product_features
+from .models import Products,WishList,Cart,Deshboard,DeliveryAddress,PromoCode,Orderitem,productComment,Product_features,sellingProRegistery
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -13,7 +13,8 @@ import datetime
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 User = get_user_model()
-
+import json
+shippingCharge = 10
 def index(request):
     qry = Deshboard.objects.all().order_by('deshboard__rank')
     obj1 = {}
@@ -152,7 +153,7 @@ def cart(request,productid=None):
                 i.quantity = i.product_id.product_quantity
             obj.append({'product_id':i.cart_product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':int(i.product_id.product_Price),'product_OfferPrice':int(i.product_id.product_OfferPrice),'product_quantity':i.quantity})
             i.save()
-    obj1 = {'params':obj,'shipping_Charge':10}
+    obj1 = {'params':obj,'shipping_Charge':shippingCharge}
     return render(request,'shop/cart.html',obj1)
 
 @csrf_exempt
@@ -166,7 +167,7 @@ def cartorderremove(request):
 @csrf_exempt
 def priceDetailsUpdateSection(request,indicate=None):
     # Getting All Cart Data For User
-    Shipping_Charge = 10
+    Shipping_Charge = shippingCharge
     cartQry = Cart.objects.filter(buyer=request.user)
     obj = []
     for i in cartQry:
@@ -198,15 +199,16 @@ def cartmodifyquantity(request):
             status = 'Input Quantity is not available yet'
     return JsonResponse({'status':status,'param':priceDetailsUpdateSection(request,indicate=True)})
 
-def wishlist(request,productid):
-    if not WishList.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
-        qry = Products.objects.get(product_id = productid)
-        WishList(buyer=request.user,product_id=qry).save()
+def wishlist(request,productid=None):
+    if productid:
+        if not WishList.objects.filter(Q(buyer=request.user) & Q(product_id=productid)).exists():
+            qry = Products.objects.get(product_id = productid)
+            WishList(buyer=request.user,product_id=qry).save()
     # Getting All WishList Data For User
     cartQry = WishList.objects.filter(buyer=request.user)
     obj = []
     for i in cartQry:
-        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Quantity':i.product_id.product_quantity})
+        obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Quantity':i.product_id.product_quantity,'product_price':i.product_id.product_OfferPrice})
     obj1 = {'params':obj}
     return render(request,'shop/wishlist.html',obj1)
 
@@ -257,7 +259,7 @@ def paymentsection(request,productid=None):
                 obj.append({'product_id':i.product_id.product_id,'product_pic':i.product_id.product_Catelog,'product_Name':i.product_id.product_Name,'product_Actual_Price':(i.product_id.product_Price)*i.quantity,'product_OfferPrice':(i.product_id.product_OfferPrice)*i.quantity})
                 request.session['totalpaybleamount'] = request.session['totalpaybleamount'] + i.product_id.product_OfferPrice*i.quantity
         
-    obj1 = {'params':obj,'promocode_qry':promocode_qry,'shipping_Charge':10,'cartflag':cartflag}
+    obj1 = {'params':obj,'promocode_qry':promocode_qry,'shipping_Charge':shippingCharge,'cartflag':cartflag}
     return render(request,'shop/paymentsection.html',obj1)
 
 @csrf_exempt
@@ -266,6 +268,7 @@ def promocodevalidate(request):
     date_today = datetime.datetime.now().date()
     if request.method == 'POST':
         promocode = request.POST.get('promocode')
+        request.session['promoCode'] = promocode
         qry = PromoCode.objects.get(Q(promocode=promocode) & Q(creationDate__lte=date_today) & Q(enddate__gte=date_today) & Q(min_purchase__lte = request.session['totalpaybleamount']))
          
         print('qry',type(qry),qry.promocode)
@@ -277,6 +280,9 @@ def pay(request,productid=None):
     productQuantity = 1
     flag = False
     print("productid=======",productid)
+    Amount_registery = 0
+    OfferAmount_registery = 0
+    item_registery = dict()
     if productid:
         print("################!!!!!!!!!!!!!!!!!!!!!!!!!!##########",productid)
         product_qry = Products.objects.get(product_id=productid)
@@ -285,6 +291,18 @@ def pay(request,productid=None):
             Orderitem(buyer=request.user,product_id=product_qry,order_date=datetime.datetime.now().date(),deliveryAddress= (DeliveryAddress.objects.get(address_id=request.session['deliveryAddress']))).save()
             pro_qry = Products.objects.get(product_id = product_qry.product_id)
             product_qry.product_quantity -=productQuantity
+            temp = dict()
+            temp['product_id'] = str(pro_qry.product_id)
+            temp['product_Name'] = pro_qry.product_Name
+            temp['product_OfferPrice'] = pro_qry.product_OfferPrice
+            temp['product_quantity'] = productQuantity
+            temp['product_Tax_Percent'] = pro_qry.product_Tax_Percent
+            item_registery["product1"] = temp
+            Amount_registery += pro_qry.product_Price
+            OfferAmount_registery += pro_qry.product_OfferPrice
+
+            # items_registery.append(pro_qry.product_id)
+            # #amount_registery.append(pro_qry.product_OfferPrice)
             product_qry.save()
         else:
             flag = True
@@ -296,18 +314,34 @@ def pay(request,productid=None):
         messages.success(request,"Your Order has been made")
         messages.tags = "success"
         product_QuantityFullfill = "These Products have out of Stock"
+        pro_seq = 1
         for item in qry:
             if item.product_id.product_quantity >= item.quantity:
                 print('item.product_id.product_quantity >= item.quantity',item.product_id.product_quantity,item.quantity)
                 Orderitem(buyer=request.user,product_id=item.product_id,order_date=datetime.datetime.now().date(),quantity=item.quantity,deliveryAddress= (DeliveryAddress.objects.get(address_id=request.session['deliveryAddress']))).save()
                 pro_qry = Products.objects.get(product_id = item.product_id.product_id)
+                #items_registery.append(pro_qry.product_id)
+                #amount_registery.append(pro_qry.product_OfferPrice)
                 pro_qry.product_quantity -=item.quantity
+                temp = dict()
+                temp['product_id'] = str(pro_qry.product_id)
+                temp['product_Name'] = pro_qry.product_Name
+                temp['product_OfferPrice'] = pro_qry.product_OfferPrice
+                temp['product_quantity'] = item.quantity
+                temp['product_Tax_Percent'] = pro_qry.product_Tax_Percent
+                item_registery[f"product{pro_seq}"] = temp
+                Amount_registery += pro_qry.product_Price
+                OfferAmount_registery += pro_qry.product_OfferPrice
+                pro_seq+=1
                 pro_qry.save()
             else:
                 print("Flag Executed")
                 flag = True
                 product_QuantityFullfill+= "  "+item.product_id.product_Name
         qry.delete()  
+    print("item_registery===========",item_registery,len(item_registery))
+    # Store Value in sellingProRegistery
+    sellingProRegistery(buyer=request.user,orderType='Single' if len(item_registery) == 1 else "Multiple",items=json.dumps(item_registery),amount=Amount_registery,paidAmount=OfferAmount_registery,status='paid',coupon=request.session['promoCode'],shippingCharge = shippingCharge).save()
         
     # if flag:
     #     return HttpResponse(f"<h1>{product_QuantityFullfill}</h1>")
@@ -328,13 +362,15 @@ def productCommentSubmission(request):
         productid = request.POST.get("productid","")
         parentid = request.POST.get("parentid",'')
         print('request.POST.get("parentid")',parentid)
+        messages.success(request,"Your Comment has been saved")
+        messages.tags = "success"
         if request.POST.get("parentid"):
             print('request.POST.get("parentid")',request.POST.get("parentid"))
             productComment(comment=comment,user=request.user,product_item=Products.objects.get(product_id=productid),parent=productComment.objects.get(sno=request.POST.get("parentid"))).save()
         else:
             productComment(comment=comment,user=request.user,product_item=Products.objects.get(product_id=productid)).save()
         
-    return redirect("/shop")
+    return redirect(request.META['HTTP_REFERER'])
 
 
 def profile(request):
@@ -355,4 +391,6 @@ def profileupdate(request):
         query.email=email
         query.phoneno=phoneno
         query.save()
-        return redirect('/shop')
+        messages.success(request,"Your profile data has been updated")
+        messages.tags = "success"
+        return redirect(request.META['HTTP_REFERER'])

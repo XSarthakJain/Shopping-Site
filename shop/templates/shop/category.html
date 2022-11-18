@@ -12,7 +12,7 @@
             <strong class="productinfoProductName">{{item.product_Name}}</strong>
             <p class="productinfoProductDesc">{{item.product_desc}}</p>
             <h6 class="productinfoProductPrice">₹{{item.product_OfferPrice}}</h6>
-            <a href="{{item.product_id}}"><button class="ProductInfoaddToCart">Add To CART</button></a>
+            <a href="{%url 'cart' item.product_id %}"><button class="ProductInfoaddToCart">Add To CART</button></a>
             <!--   -->
         </div>
     </div>
