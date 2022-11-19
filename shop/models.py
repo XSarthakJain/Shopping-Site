@@ -10,7 +10,8 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from .manager import UserManager
 from django_mysql.models import ListCharField
-from django.contrib.postgres.fields import JSONField
+import jsonfield
+#from django.contrib.postgres.fields import JSONField
 # # Create your models here.
 
 class User(AbstractUser):
@@ -135,15 +136,16 @@ class sellingProRegistery(models.Model):
         base_field=models.CharField(max_length=100),
         size=25,
         max_length=(25 * 101))
-    items = JSONField()
+    items = jsonfield.JSONField()
     shippingCharge = models.IntegerField(default=0)
     amount = models.FloatField(default=0)
     paidAmount = models.IntegerField(default=0)
     status = models.CharField(max_length=10,choices=(('paid','paid'),('return','return')))
 
+class notifyYou(models.Model):
 
-
-
-
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    product_item = models.ForeignKey(Products,on_delete=models.CASCADE,null=True)
+    date = models.DateField(_("Date"),default=date.today)
 
 

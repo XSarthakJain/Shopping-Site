@@ -341,7 +341,8 @@ def pay(request,productid=None):
         qry.delete()  
     print("item_registery===========",item_registery,len(item_registery))
     # Store Value in sellingProRegistery
-    sellingProRegistery(buyer=request.user,orderType='Single' if len(item_registery) == 1 else "Multiple",items=json.dumps(item_registery),amount=Amount_registery,paidAmount=OfferAmount_registery,status='paid',coupon=request.session['promoCode'],shippingCharge = shippingCharge).save()
+    sellingProRegistery(buyer=request.user,orderType='Single' if len(item_registery) == 1 else "Multiple",items=json.dumps(item_registery),amount=Amount_registery,paidAmount=OfferAmount_registery,status='paid',coupon=(request.session['promoCode'] if 'promoCode' in request.session else ''),shippingCharge = shippingCharge).save()
+    request.session['promoCode'] = ''
         
     # if flag:
     #     return HttpResponse(f"<h1>{product_QuantityFullfill}</h1>")

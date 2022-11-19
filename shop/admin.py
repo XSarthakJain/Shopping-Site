@@ -14,6 +14,8 @@ from .models import Orderitem
 from .models import productComment
 from .models import Product_features
 from .models import sellingProRegistery
+#from .models import demo_features
+from .models import notifyYou
 # Register your models here.
 admin.site.register(Products)
 admin.site.register(Cart)
@@ -26,3 +28,5 @@ admin.site.register(Orderitem)
 admin.site.register(productComment)
 admin.site.register(Product_features)
 admin.site.register(sellingProRegistery)
+#admin.site.register(demo_features)
+admin.site.register(notifyYou)
