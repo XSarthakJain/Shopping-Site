@@ -30,7 +30,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='shop/passwordresetform.html'),name='password_reset_confirm'),
     path('reset_password_complete/',auth_views.PasswordResetCompleteView.as_view(template_name='shop/resetpassworddone.html'),name='password_reset_complete'),
     path('profile',views.profile,name='profile'),
-    path('profileupdate',views.profileupdate,name='profileupdate')
-
+    path('profileupdate',views.profileupdate,name='profileupdate'),
+    path('notifyyou',views.notifyyou,name='notifyyou')
 
 ]

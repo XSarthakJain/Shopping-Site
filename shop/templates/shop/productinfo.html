@@ -14,7 +14,11 @@
     <a href="{%url 'cart' params.product_id %}"><button class="productCatelogActionButton">Add to Cart</button></a>
     <a href="/shop/checkout/deliveryaddress/{{params.product_id}}"><button class="productCatelogActionButton Checkout">Checkout</button></a>
     {%else%}
-    <a href=""><button class="productCatelogNotifyActionButton">Notify You</button></a>
+    <form action="{%url 'notifyyou'%}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{params.product_id}}">
+    <input type="submit" class="productCatelogNotifyActionButton" value="Notify You">
+    </form>
     {%endif%}
     </div>
     <div class="ProductCatelogDetails">
