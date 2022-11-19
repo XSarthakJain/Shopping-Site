@@ -148,4 +148,7 @@ class notifyYou(models.Model):
     product_item = models.ForeignKey(Products,on_delete=models.CASCADE,null=True)
     date = models.DateField(_("Date"),default=date.today)
 
+    class Meta:
+        unique_together = ["buyer", "product_item"]
+
 

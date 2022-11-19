@@ -398,8 +398,11 @@ def profileupdate(request):
 
 def notifyyou(request):
     if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        notifyYou(buyer=request.user,product_item=Products.objects.get(product_id=product_id)).save()
+        try:
+            product_id = request.POST.get('product_id')
+            notifyYou(buyer=request.user,product_item=Products.objects.get(product_id=product_id)).save()
+        except:
+            pass
         messages.success(request,"We'll notify you, once product comeback")
         messages.tags = "success"
         return redirect(request.META['HTTP_REFERER'])
